@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+
+# ░█▀█░█▀▄░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀
+# ░█▀▀░█▀▄░█░█░█░█░█▀▄░█▀█░█░█░▀▀█
+# ░▀░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀
+
+alias m="ncmpcpp"
+alias vim="nvim"
+alias p="ipython"
+alias dp="python ~/.scripts/dropbox.py"
+
+# ░█▀▀░█▀█░█░░░█▀█░█▀▄
+# ░█░░░█░█░█░░░█░█░█▀▄
+# ░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀
+
+# alias ls='ls --group-directories-first --color=auto'
+# alias ll='ls -alFh --group-directories-first  --color=auto'
+# alias la='ls -A --group-directories-first --color=auto -F'
+alias ls='exa'
+alias ll='exa --long --header --git'
+alias sl='exa -a --long --header --git'
+alias la='exa -a'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# ░█▄█░▀█▀░█▀▀░█▀▀
+# ░█░█░░█░░▀▀█░█░░
+# ░▀░▀░▀▀▀░▀▀▀░▀▀▀
+
+# Cd to git folder
+alias gt="cd ~/git"
+
+# Make ftp server
+alias makeftp="python -m pyftpdlib --directory=$HOME/ --port=2121"
+
+# Get current Fcitx mode
+alias getFcitxMod='qdbus "org.fcitx.Fcitx" "/inputmethod" "GetCurrentIM"'
+
+alias youtube-dl-list='youtube-dl -o "%(playlist_index)s-%(title)s.%(ext)s" -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio"'
+
+cfile() {
+  nvim $($HOME/.scripts/rofi/config-selector.py)
+}
+
+alias tangleDoomEmacs="cd $HOME/.doom.d && $HOME/.emacs.d/bin/org-tangle config.org && cd -"
+
+alias openfile="~/.scripts/rofi/config-selector.py | xargs nvim"
+
+alias xr='xmonad --recompile'
+
+# TODO: Update to paru
+alias xmr='yay -S xmobar-git --answerclean A --answerdiff N'
+alias xxmr='xr; xmr'
+alias tmuxkillall="tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I{} tmux kill-session -t {}"
+
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+
+alias q="exit"
+
+alias rainbows='head -n 1000 /dev/random | toilet -f pagga | lolcat'
+
+#TODO: Fix dynamic disable and enable (16 was a one time occurence)
+alias disableTouch="xinput set-prop 16 'Device Enabled' 0"
+alias enableTouch="xinput set-prop 16 'Device Enabled' 1"
+
+# Connect to home media server
+alias plexr=" ssh -L 8443:localhost:32400 -N desktop"
+
+# Fix fn keys for Keychron K1
+alias fixkeys="sudo echo 0 > /sys/module/hid_apple/parameters/fnmode"
+
+# Fix the screens on Desktop computer
+alias fixscreen="xrandr --output DP-4 --mode 1920x1080 --pos 0x0 -r 144 --output DVI-I-1 --primary --mode 1920x1080 --pos 1920x0 -r 144"
+
+alias doubleScreen="xrandr --output DP-3 --mode 1920x1080"
+alias exScreen="xrandr --output DP-3 --mode 1920x1080 --right-of eDP-1"
+
+source ~/.privateAliases

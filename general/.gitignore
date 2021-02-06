@@ -1,0 +1,14 @@
+
+.emacs.d/*
+!.emacs.d/config.org
+!.emacs.d/logo.svg
+!.emacs.d/snippets
+!.emacs.d/.projectile
+
+.ghc/ghc_history
+
+.mpd/*.pid
+.mpd/*.db
+.mpd/mpdstate*
+
+.ncmpcpp/error.log
