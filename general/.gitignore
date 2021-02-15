@@ -12,3 +12,6 @@
 .mpd/mpdstate*
 
 .ncmpcpp/error.log
+
+.xmonad/*.hi
+.xmonad/*.o
