@@ -1,0 +1,199 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ntnu}[Personal styles for NTNU exercises]
+
+\RequirePackage[dvipsnames]{xcolor}
+\definecolor{ntnublue}{RGB}{0,80,158}
+
+\RequirePackage{graphicx}
+\RequirePackage[utf8]{inputenc}
+
+% ░█░█░█░█░█▀█░█▀▀░█▀▄░█░░░▀█▀░█▀█░█░█░█▀▀
+% ░█▀█░░█░░█▀▀░█▀▀░█▀▄░█░░░░█░░█░█░█▀▄░▀▀█
+% ░▀░▀░░▀░░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀▀▀
+
+\RequirePackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,
+  urlcolor=blue,
+}
+
+% ░█▀▀░█▀▀░█▀█░█▄█░█▀▀░▀█▀░█▀▄░█░█
+% ░█░█░█▀▀░█░█░█░█░█▀▀░░█░░█▀▄░░█░
+% ░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░░▀░░▀░▀░░▀░
+
+\RequirePackage{geometry}
+
+\geometry{
+  a4paper,
+  left=15mm,
+  right=15mm,
+  top=30mm,
+  bottom=20mm,
+}
+
+% ░▀█▀░▀█▀░▀█▀░█░░░▀█▀░█▀█░█▀▀
+% ░░█░░░█░░░█░░█░░░░█░░█░█░█░█
+% ░░▀░░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀
+
+\RequirePackage{titling}
+\RequirePackage[many]{tcolorbox}
+
+% \author{\theAuthor}
+% \title{\theTitle}
+
+\pretitle{
+  \begin{flushleft}
+  \LARGE
+}
+\posttitle{
+  \par
+  \end{flushleft}
+}
+
+\preauthor{
+  \begin{flushleft}
+  \large 
+}
+\postauthor{
+  \par
+  \end{flushleft}
+}
+
+\predate{
+  \begin{flushleft}
+  \large
+}
+\postdate{
+  \par
+  \end{flushleft}
+}
+
+\newtcolorbox{@ntnutitlebox}{
+  % tikznode,
+  % tcbox width=auto limited,
+  % capture=hbox,
+  enhanced,
+  colback=ntnublue,
+  coltext=white,
+  arc=0pt,
+  boxrule=0pt,
+  parbox=false,
+  top=5mm,
+  bottom=5mm
+}
+
+\newcommand{\ntnuTitle}{
+  \begin{minipage}{0.80\textwidth}
+    \begin{@ntnutitlebox}
+      \Huge\thetitle
+
+      \LARGE\theauthor
+    \end{@ntnutitlebox}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.10\textwidth}
+    \vspace*{2mm}
+    \centering
+    \includegraphics[scale=1.2]{$HOME/texmf/tex/latex/local/ntnu/ntnu_logo.pdf}
+  \end{minipage}
+  \vspace*{2cm}
+}
+
+% ░█░█░█▀▀░█▀█░█▀▄░░░█░█▀▀░█▀█░█▀█░▀█▀
+% ░█▀█░█▀▀░█▀█░█░█░▄▀░░█▀▀░█░█░█░█░░█░
+% ░▀░▀░▀▀▀░▀░▀░▀▀░░▀░░░▀░░░▀▀▀░▀▀▀░░▀░
+
+
+\RequirePackage{fancyhdr}
+
+\newcommand{\ntnu@pageword}{Page}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\rfoot{\ntnu@pageword\ \thepage}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+
+% ░█▀▀░█░█░█▀▀░█▀▄░█▀▀░▀█▀░█▀▀░█▀▀░█▀▀
+% ░█▀▀░▄▀▄░█▀▀░█▀▄░█░░░░█░░▀▀█░█▀▀░▀▀█
+% ░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀
+
+
+\RequirePackage{enumitem}
+
+\renewcommand{\theenumi}{\arabic{enumi}}
+\renewcommand{\labelenumi}{\Large\fbox{\theenumi}}
+
+\newenvironment{excs}{
+  \begin{enumerate}
+}
+{
+  \end{enumerate}
+}
+
+\newcommand{\setexc}[1]{\setcounter{enumi}{#1}}
+
+\newcommand{\exc}{
+  \item\ 
+  \addcontentsline{toc}{subsection}{Oppgave \theenumi}
+}
+
+%--------------------------%
+
+\renewcommand{\theenumii}{\alph{enumii})}
+\renewcommand{\labelenumii}{\textbf{\theenumii}}
+
+\newenvironment{subexcs}{
+  \begin{enumerate}
+}{
+  \end{enumerate}
+}
+
+\newcommand{\setsubexc}[1]{\setcounter{enumii}{#1}}
+
+\newcommand{\subexc}{
+  \vspace*{0.5cm}
+  \item\ 
+  \addcontentsline{toc}{subsubsection}{\theenumii}
+}
+
+
+% ░█▄█░▀█▀░█▀▀░█▀▀
+% ░█░█░░█░░▀▀█░█░░
+% ░▀░▀░▀▀▀░▀▀▀░▀▀▀
+
+\RequirePackage{float}
+\RequirePackage[export]{adjustbox}
+
+\newcommand{\pic}[1]{
+  \begin{figure}[H]
+    \includegraphics[width=\linewidth, cfbox=ntnublue 3pt 3pt]{#1}
+  \end{figure}
+}
+
+\ProcessOptions\relax
+
+\setlength{\parindent}{0cm}
+
+% ░█▀█░█▀█░▀█▀░▀█▀░█▀█░█▀█░█▀▀
+% ░█░█░█▀▀░░█░░░█░░█░█░█░█░▀▀█
+% ░▀▀▀░▀░░░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀
+
+
+\newif\ifntnu@mylang\ntnu@mylangfalse
+\DeclareOption{norsk}{\ntnu@mylangtrue}
+\DeclareOption*{\OptionNotUsed} % discard any undeclared option
+\ProcessOptions\relax
+
+\ifntnu@mylang 
+  \RequirePackage[norsk, english]{babel}
+  \renewcommand{\ntnu@pageword}{Side}
+\else
+  \RequirePackage[english, norsk]{babel} %% the default
+\fi

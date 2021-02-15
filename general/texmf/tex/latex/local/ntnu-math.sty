@@ -1,0 +1,78 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ntnu-math}[Personal styles for NTNU math exercises]
+
+\RequirePackage{cancel}
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{amssymb}
+
+
+% ░█▀▀░▄▀▄░█░█░█▀█░▀█▀░▀█▀░█▀█░█▀█░█▀▀
+% ░█▀▀░█\█░█░█░█▀█░░█░░░█░░█░█░█░█░▀▀█
+% ░▀▀▀░░▀\░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀
+
+
+\newcommand{\mcom}[1]{&& \text{#1}}
+
+
+% ░█▀▀░█▀▄░█▀█░█▀█░█░█░█▀▀
+% ░█░█░█▀▄░█▀█░█▀▀░█▀█░▀▀█
+% ░▀▀▀░▀░▀░▀░▀░▀░░░▀░▀░▀▀▀
+
+
+\RequirePackage{tcolorbox}
+
+\newtcolorbox{coloredgraphbox}{
+  colframe=ntnublue,
+  arc=0pt,
+  outer arc=0pt
+  colback=white,
+  boxrule=3pt
+}
+
+%TODO: Make resizable and float
+\newenvironment{mgraphbox}{
+  \begin{center}
+  \begin{coloredgraphbox}
+}{
+  \end{coloredgraphbox}
+  \end{center}
+}
+
+%TODO: Directed graphs, trees
+
+% ░▀█▀░█▀█░█▀▄░█░░░█▀▀░█▀▀
+% ░░█░░█▀█░█▀▄░█░░░█▀▀░▀▀█
+% ░░▀░░▀░▀░▀▀░░▀▀▀░▀▀▀░▀▀▀
+
+\RequirePackage{colortbl}
+
+\newlength{\oldarrayrulewidth}
+\newcommand{\thickline}[1]{%
+  \noalign{\global\setlength{\oldarrayrulewidth}{\arrayrulewidth}}%
+  \noalign{\global\setlength{\arrayrulewidth}{#1}}%
+  \arrayrulecolor{ntnublue}\hline%
+  \arrayrulecolor{black}%
+  \noalign{\global\setlength{\arrayrulewidth}{\oldarrayrulewidth}}}
+
+\newcolumntype{e}{>{\columncolor{ntnublue!10}}c}
+\newcommand{\erow}{\rowcolor{ntnublue!10}}
+
+%TODO: Fix First bit which is placed a little off
+
+\newcommand{\T}{{\color{ForestGreen}T}}
+\newcommand{\F}{{\color{red}F}}
+\newenvironment{truthtable}[2]
+{
+\begin{figure}[H]
+  \centering
+  \begin{tabular}{#1}
+    \renewcommand{\arraystretch}{1.5}
+    #2 \\
+    \thickline{1pt}
+    \renewcommand{\arraystretch}{1}
+}
+{
+  \end{tabular}
+\end{figure}
+}
