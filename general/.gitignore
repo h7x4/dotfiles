@@ -13,5 +13,8 @@
 
 .ncmpcpp/error.log
 
+.newsboat
+!.newsboat/config
+
 .xmonad/*.hi
 .xmonad/*.o
