@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+
+printState() {
+  # REQUIRES QT5-TOOLS
+  STATUS=$(qdbus "org.fcitx.Fcitx" "/inputmethod" "GetCurrentIM")
+
+  case $STATUS in
+    fcitx-keyboard-us)
+      echo 'US'
+    ;;
+    fcitx-keyboard-no)
+      echo 'NO'
+    ;;
+    mozc)
+      echo '日本語'
+    ;;
+    *)
+      echo "$STATUS?"
+    ;;
+  esac
+}
+
+while :
+do
+  printState
+  sleep 1
+done

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+isPlaying() {
+if mpc status | grep playing >/dev/null
+then
+  echo -e "▶"
+else
+  echo -e "⏸"
+fi
+}
+
+while true; do
+  PLAYING=$(isPlaying)
+  TITLE=$(mpc --format '[%artist% - ]%title%' | /usr/bin/head -n 1)
+  TIME=$(mpc | awk '(NR==2){print $3}')
+  echo -e "$PLAYING $TITLE | [$TIME]"
+	sleep 1
+done
