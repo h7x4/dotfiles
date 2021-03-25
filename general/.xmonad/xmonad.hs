@@ -111,7 +111,7 @@ myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [
      ((modm .|. shiftMask,  xK_l ), sendMessage NextLayout)
-    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
+    -- , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
     , ((modm,               xK_n     ), refresh)
     , ((modm,               xK_Tab   ), windows W.focusDown)
     , ((modm,               xK_j     ), windows W.focusDown)
@@ -168,6 +168,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm               , xK_m),         spawn "fcitx-remote -s fcitx-keyboard-us")
     , ((modm               , xK_b),         spawn "fcitx-remote -s mozc")
     , ((modm               , xK_Return),    namedScratchpadAction myScratchpads "terminal")
+    , ((modm               , xK_space ),    namedScratchpadAction myScratchpads "terminal")
+    , ((modm .|. shiftMask , xK_space ),    spawn $ myTerminal ++ " -e tmux")
     , ((modm .|. shiftMask , xK_Print ),    spawn "scrot -s '%Y-%m-%d_$wx$h_scrot.png' -e 'mv $f ~/pictures/screenshots'")
     , ((modm               , xK_Print ),    spawn "scrot '%Y-%m-%d_$wx$h_scrot.png' -e 'mv $f ~/pictures/screenshots'")
     , ((0                  , xK_Print ),    spawn "$HOME/.scripts/git/boomer/boomer")
