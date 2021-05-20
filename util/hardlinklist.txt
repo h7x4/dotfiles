@@ -1,0 +1,13 @@
+general/.config   ~/.config
+general/.emacs.d  ~/.emacs.d
+general/.ghc      ~/.ghc
+general/.ncmpcpp  ~/.ncmpcpp
+general/.newsboat ~/.newsboat
+general/.xmonad   ~/.xmonad
+general/texmf     ~/texmf
+
+general/.aliases      ~/.aliases
+general/.bash_profile ~/.bash_profile
+general/.bashrc       ~/.bashrc
+general/.tmux.conf    ~/.tmux.conf
+general/.zshrc        ~/.zshrc
