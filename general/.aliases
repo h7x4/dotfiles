@@ -5,7 +5,20 @@
 # ░▀░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀
 
 alias m="ncmpcpp"
-alias vim="nvim"
+
+if command -v nvim; then
+  alias vim="nvim"
+  alias vi="nvim"
+elif command -v vim; then
+  alias nvim="vim"
+  alias vi="vim"
+elif command -v vi; then
+  alias nvim="vi"
+  alias vim="vi"
+else
+  echo "[ERROR] No vim program found on the system! Couldn't bind aliases!"
+fi
+
 alias p="ipython"
 alias dp="python ~/.scripts/dropbox.py"
 
@@ -13,13 +26,17 @@ alias dp="python ~/.scripts/dropbox.py"
 # ░█░░░█░█░█░░░█░█░█▀▄
 # ░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀
 
-# alias ls='ls --group-directories-first --color=auto'
-# alias ll='ls -alFh --group-directories-first  --color=auto'
-# alias la='ls -A --group-directories-first --color=auto -F'
-alias ls='exa'
-alias ll='exa --long --header --git'
-alias sl='exa -a --long --header --git'
-alias la='exa -a'
+if command -v exa; then
+  alias ls='exa'
+  alias ll='exa --long --header --git'
+  alias sl='exa -a --long --header --git'
+  alias la='exa -a'
+else
+  alias ls='ls --group-directories-first --color=auto'
+  alias ll='ls -alFh --group-directories-first  --color=auto'
+  alias la='ls -A --group-directories-first --color=auto -F'
+fi
+
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
@@ -83,4 +100,7 @@ alias fixscreen="xrandr --output DP-4 --mode 1920x1080 --pos 0x0 -r 144 --output
 alias doubleScreen="xrandr --output DP-3 --mode 1920x1080"
 alias exScreen="xrandr --output DP-3 --mode 1920x1080 --right-of eDP-1"
 
-source ~/.privateAliases
+if [[ -e ~/.privateAliases ]]; then
+  source ~/.privateAliases
+fi
+
