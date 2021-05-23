@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+#TODO: Fix dynamic disable and enable (16 was a one time occurence)
+alias disable-touch="xinput set-prop 16 'Device Enabled' 0"
+alias enable-touch="xinput set-prop 16 'Device Enabled' 1"
+
+alias doubleScreen="xrandr --output DP-3 --mode 1920x1080"
+alias exScreen="xrandr --output DP-3 --mode 1920x1080 --right-of eDP-1"
