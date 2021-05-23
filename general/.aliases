@@ -1,60 +1,99 @@
 #!/usr/bin/env bash
 
+export SCREENSHOT_DIR='~/pictures/screenshots'
+
 # ░█▀█░█▀▄░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀
 # ░█▀▀░█▀▄░█░█░█░█░█▀▄░█▀█░█░█░▀▀█
 # ░▀░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀
 
 alias m="ncmpcpp"
-alias vim="nvim"
-alias p="ipython"
-alias dp="python ~/.scripts/dropbox.py"
+
+if command -v nvim &> /dev/null; then
+  alias vim="nvim"
+  alias vi="nvim"
+elif command -v vim &> /dev/null; then
+  alias nvim="vim"
+  alias vi="vim"
+elif command -v vi &> /dev/null; then
+  alias nvim="vi"
+  alias vim="vi"
+else
+  echo -e "\033[31m[ERROR] No vim program found on the system! Couldn't bind aliases!\033[0m"
+fi
+ 
+if command -v ipython &> /dev/null; then
+  alias p="ipython"
+fi
+ 
+if command -v youtube-dl &> /dev/null; then
+  alias youtube-dl-list='youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio" -o "%(playlist_index)s-%(title)s.%(ext)s"'
+  alias music-dl='youtube-dl --extract-audio -f "bestaudio[ext=m4a]/best""'
+  alias music-dl-list='youtube-dl --extract-audio -f "bestaudio[ext=m4a]/best" -o "%(playlist_index)s-%(title)s.%(ext)s"'
+fi
+
+if command -v maim &> /dev/null; then
+  alias skusho='maim -u -k $(echo $SCREENSHOT_DIR)/$(date +%s).png'
+
+  if command -v xclip &> /dev/null; then
+    alias skushoclip='maim -k -s -u | xclip -selection clipboard -t image/png -i'
+  fi
+fi
+
+if command -v rsync &> /dev/null; then
+  alias cp='rsync --progress -h'
+fi
 
 # ░█▀▀░█▀█░█░░░█▀█░█▀▄
 # ░█░░░█░█░█░░░█░█░█▀▄
 # ░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀
 
-# alias ls='ls --group-directories-first --color=auto'
-# alias ll='ls -alFh --group-directories-first  --color=auto'
-# alias la='ls -A --group-directories-first --color=auto -F'
-alias ls='exa'
-alias ll='exa --long --header --git'
-alias sl='exa -a --long --header --git'
-alias la='exa -a'
+if command -v exa &> /dev/null; then
+  alias ls='exa'
+  alias ll='exa --long --header --git'
+  alias sl='exa -a --long --header --git'
+  alias la='exa -a'
+else
+  alias ls='ls --group-directories-first --color=auto'
+  alias ll='ls -alFh --group-directories-first  --color=auto'
+  alias la='ls -A --group-directories-first --color=auto -F'
+fi
+
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+alias echo-colors='for x in 0 1 4 5 7 8; do for i in {30..37}; do for a in {40..47}; do echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "; done; echo; done; done; echo "";'
+
 # ░█▄█░▀█▀░█▀▀░█▀▀
 # ░█░█░░█░░▀▀█░█░░
 # ░▀░▀░▀▀▀░▀▀▀░▀▀▀
 
 # Cd to git folder
-alias gt="cd ~/git"
+alias gt='cd ~/git'
 
 # Make ftp server
-alias makeftp="python -m pyftpdlib --directory=$HOME/ --port=2121"
+alias makeftp='python -m pyftpdlib --directory=$HOME/ --port=2121'
 
 # Get current Fcitx mode
-alias getFcitxMod='qdbus "org.fcitx.Fcitx" "/inputmethod" "GetCurrentIM"'
+alias get-fcitx-mode='qdbus "org.fcitx.Fcitx" "/inputmethod" "GetCurrentIM"'
 
-alias youtube-dl-list='youtube-dl -o "%(playlist_index)s-%(title)s.%(ext)s" -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio"'
-
-cfile() {
+c-file() {
   nvim $($HOME/.scripts/rofi/config-selector.py)
 }
 
-alias tangleDoomEmacs="cd $HOME/.doom.d && $HOME/.emacs.d/bin/org-tangle config.org && cd -"
+alias openfile='~/.scripts/rofi/config-selector.py | xargs nvim'
 
-alias openfile="~/.scripts/rofi/config-selector.py | xargs nvim"
+# alias tangle-doom-emacs='cd $HOME/.doom.d && $HOME/.emacs.d/bin/org-tangle config.org && cd -'
 
 alias xr='xmonad --recompile'
 
 # TODO: Update to paru
 alias xmr='yay -S xmobar-git --answerclean A --answerdiff N'
 alias xxmr='xr; xmr'
-alias tmuxkillall="tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I{} tmux kill-session -t {}"
+
+alias killall-tmux='tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I{} tmux kill-session -t {}'
 
 alias cd..='cd ..'
 alias ..='cd ..'
@@ -63,24 +102,24 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-alias q="exit"
+alias q='exit'
 
-alias rainbows='head -n 1000 /dev/random | toilet -f pagga | lolcat'
+# Supposed to be used as a pipe: "cat file | rainbow"
+alias rainbow='toilet -f pagga | lolcat'
 
-#TODO: Fix dynamic disable and enable (16 was a one time occurence)
-alias disableTouch="xinput set-prop 16 'Device Enabled' 0"
-alias enableTouch="xinput set-prop 16 'Device Enabled' 1"
+if [[ -f ~/.scripts/dropbox.py ]]; then
+  alias dp="python ~/.scripts/dropbox.py"
+fi
 
-# Connect to home media server
-alias plexr=" ssh -L 8443:localhost:32400 -N desktop"
+if [[ -f ~/.aliases.private ]]; then
+  source ~/.aliases.private
+fi
 
-# Fix fn keys for Keychron K1
-alias fixkeys="sudo echo 0 > /sys/module/hid_apple/parameters/fnmode"
+if [[ -f ~/.aliases.desktop ]]; then
+  source ~/.aliases.desktop
+fi
 
-# Fix the screens on Desktop computer
-alias fixscreen="xrandr --output DP-4 --mode 1920x1080 --pos 0x0 -r 144 --output DVI-I-1 --primary --mode 1920x1080 --pos 1920x0 -r 144"
+if [[ -f ~/.aliases.laptop ]]; then
+  source ~/.aliases.laptop
+fi
 
-alias doubleScreen="xrandr --output DP-3 --mode 1920x1080"
-alias exScreen="xrandr --output DP-3 --mode 1920x1080 --right-of eDP-1"
-
-source ~/.privateAliases

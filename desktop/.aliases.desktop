@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Fix fn keys for Keychron K1
+alias fixkeys="sudo echo 0 > /sys/module/hid_apple/parameters/fnmode"
+
+# Fix the screens on Desktop computer
+alias fixscreen="xrandr --output DP-4 --mode 1920x1080 --pos 0x0 -r 144 --output DVI-I-1 --primary --mode 1920x1080 --pos 1920x0 -r 144"
