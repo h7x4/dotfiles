@@ -155,6 +155,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm               , xK_s),         spawn myBrowser)
     , ((modm               , xK_f),         sendMessage $ Toggle FULL)
     , ((modm .|. shiftMask , xK_w),         spawn "io.elementary.code -t")
+    , ((modm               , xK_a),         spawn "copyq toggle")
     , ((modm               , xK_e),         spawn emacsCommand)
     , ((modm .|. shiftMask , xK_e),         spawn myFileBrowser)
     , ((modm               , xK_r),         spawn "rofi -show drun")
@@ -170,9 +171,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm               , xK_Return),    namedScratchpadAction myScratchpads "terminal")
     , ((modm               , xK_space ),    namedScratchpadAction myScratchpads "terminal")
     , ((modm .|. shiftMask , xK_space ),    spawn $ myTerminal ++ " -e tmux")
-    , ((modm .|. shiftMask , xK_Print ),    spawn "scrot -s '%Y-%m-%d_$wx$h_scrot.png' -e 'mv $f ~/pictures/screenshots'")
-    , ((modm               , xK_Print ),    spawn "scrot '%Y-%m-%d_$wx$h_scrot.png' -e 'mv $f ~/pictures/screenshots'")
-    , ((0                  , xK_Print ),    spawn "$HOME/.scripts/git/boomer/boomer")
+    , ((0                  , xK_Print ),    spawn "skushoclip")
+    , ((shiftMask          , xK_Print ),    spawn "skusho")
+    , ((modm               , xK_Print ),    spawn "$HOME/.scripts/git/boomer/boomer")
     , ((modm               , xK_v ),        spawn "rofi -modi lpass:$HOME/.scripts/rofi/lpass//rofi-lpass -show lpass")
 
     , ((0, xF86XK_AudioRaiseVolume   ), spawn "amixer set Master 2%+")
@@ -272,6 +273,7 @@ myManageHook = composeAll
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore
     , resource  =? "fcitx-config"   --> doFloat
+    , className =? "copyq"          --> doFloat
     ] <+> namedScratchpadManageHook myScratchpads
 
 ------------------------------------------------------------------------
