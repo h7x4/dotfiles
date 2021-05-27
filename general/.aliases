@@ -43,9 +43,15 @@ if command -v rsync &> /dev/null; then
   alias cp='rsync --progress -h'
 fi
 
+if command -v bat &> /dev/null; then
+  alias ccat='/usr/bin/cat'
+  alias cat='bat'
+fi
+
 # ░█▀▀░█▀█░█░░░█▀█░█▀▄
 # ░█░░░█░█░█░░░█░█░█▀▄
 # ░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀
+
 
 if command -v exa &> /dev/null; then
   alias ls='exa'
