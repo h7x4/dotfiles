@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 
 -- ░▀█▀░█▄█░█▀█░█▀█░█▀▄░▀█▀░█▀▀
 -- ░░█░░█░█░█▀▀░█░█░█▀▄░░█░░▀▀█
@@ -18,7 +19,7 @@ import qualified Data.Map        as M
 
 import XMonad.Util.Run (spawnPipe, hPutStrLn, runProcessWithInput)
 import XMonad.Util.NamedScratchpad
--- import XMonad.Util.SpawnOnce
+import XMonad.Util.SpawnOnce
 
 import XMonad.Layout.Spacing
 import XMonad.Layout.Fullscreen
@@ -37,7 +38,7 @@ import Graphics.X11.ExtraTypes.XF86
 -- colors
 
 type Color = String
-  
+
 background = "#272822"
 foreground = "#f8f8f2"
 red        = "#f92672"
@@ -47,7 +48,7 @@ blue       = "#66d9ef"
 magenta    = "#ae81ff"
 cyan       = "#a1efe4"
 
-  
+
 -- ░█▀▀░█▀█░█▀█░█▀▀░▀█▀░█▀▀
 -- ░█░░░█░█░█░█░█▀▀░░█░░█░█
 -- ░▀▀▀░▀▀▀░▀░▀░▀░░░▀▀▀░▀▀▀
@@ -72,7 +73,7 @@ myModMask :: KeyMask
 myModMask = mod4Mask
 
 myWorkspaces :: [WorkspaceId]
-myWorkspaces = ["gen","www","emx","dev","slk","6","7","8","9"]
+myWorkspaces = ["gen","www","emx","dev","slk","6","7","8","com"]
 
 myNormalBorderColor  = "#dddddd"
 myFocusedBorderColor = "#ff0000"
@@ -95,13 +96,13 @@ myScratchpads = [ NS "ncmpcpp" spawnNC findNC layoutNC
     spawnTM  = myTerminal ++ " --class instanceClass,floatingTerminal -e tmux new-session -A -s floating"
     findTM   = className =? "floatingTerminal"
     layoutTM = customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)
- 
+
     spawnSC  = "sxiv ~/uni/schedule.png"
     findSC   = className =? "sxiv"
 
     spawnH   = "echo \"" ++ help ++ "\" | xmessage -file -"
     findH    = className =? "Xmessage"
-  
+
 -- ░█░█░█▀▀░█░█░█▀▀
 -- ░█▀▄░█▀▀░░█░░▀▀█
 -- ░▀░▀░▀▀▀░░▀░░▀▀▀
@@ -126,7 +127,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
     , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
-    , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
+    , ((modm .|. shiftMask, xK_q     ), io exitSuccess)
     , ((modm              , xK_c     ), myRestartHook )
     ]
 
@@ -140,7 +141,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-    
+
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
         | (key, sc) <- zip [xK_u, xK_i] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
@@ -162,7 +163,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm               , xK_p),         spawn "mpc toggle")
     , ((modm               , xK_q),         namedScratchpadAction myScratchpads "ncmpcpp")
     , ((modm               , xK_minus),     namedScratchpadAction myScratchpads "schedule")
-    , ((modm               , xK_F7),        spawn "amixer set Master 2%-") 
+    , ((modm               , xK_F7),        spawn "amixer set Master 2%-")
     , ((modm               , xK_F8),        spawn "amixer set Master 2%+")
     -- , ((modm               , xK_c),         spawn myTerminal ++ " -e cfile")
     , ((modm               , xK_n),         spawn "fcitx-remote -s fcitx-keyboard-no")
@@ -178,13 +179,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     , ((0, xF86XK_AudioRaiseVolume   ), spawn "amixer set Master 2%+")
     , ((0, xF86XK_AudioLowerVolume   ), spawn "amixer set Master 2%-")
-    , ((0, xF86XK_AudioMute          ), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")    
+    , ((0, xF86XK_AudioMute          ), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
 
-    , ((0, xF86XK_AudioPlay          ), spawn "mpc toggle")    
-    , ((0, xF86XK_AudioPrev          ), spawn "mpc prev")    
-    , ((0, xF86XK_AudioNext          ), spawn "mpc next")    
+    , ((0, xF86XK_AudioPlay          ), spawn "mpc toggle")
+    , ((0, xF86XK_AudioPrev          ), spawn "mpc prev")
+    , ((0, xF86XK_AudioNext          ), spawn "mpc next")
 
-    , ((0, xF86XK_MonBrightnessUp    ), spawn "light -A 5")    
+    , ((0, xF86XK_MonBrightnessUp    ), spawn "light -A 5")
     , ((0, xF86XK_MonBrightnessDown  ), spawn "light -U 5")
 
     , ((modm .|. shiftMask, xK_slash ), namedScratchpadAction myScratchpads "help")
@@ -205,18 +206,17 @@ viewDropboxStatus = spawn =<< ((++) "notify-send -t 3000 " . unpack) <$> status
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
 --
-myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
-
+myMouseBindings XConfig {XMonad.modMask = modm} = M.fromList
     -- mod-button1, Set the window to floating mode and move by dragging
-    [ ((modm, button1), (\w -> focus w >> mouseMoveWindow w
-                                       >> windows W.shiftMaster))
+    [ ((modm, button1), \w -> focus w >> mouseMoveWindow w
+                                       >> windows W.shiftMaster)
 
     -- mod-button2, Raise the window to the top of the stack
-    , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
+    , ((modm, button2), \w -> focus w >> windows W.shiftMaster)
 
     -- mod-button3, Set the window to floating mode and resize by dragging
-    , ((modm, button3), (\w -> focus w >> mouseResizeWindow w
-                                       >> windows W.shiftMaster))
+    , ((modm, button3), \w -> focus w >> mouseResizeWindow w
+                                       >> windows W.shiftMaster)
 
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
@@ -227,7 +227,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- layout
 
 
-myLayout = 
+myLayout =
   fullscreenFull $
   avoidStruts $
   smartBorders $
@@ -274,6 +274,7 @@ myManageHook = composeAll
     , resource  =? "kdesktop"       --> doIgnore
     , resource  =? "fcitx-config"   --> doFloat
     , className =? "copyq"          --> doFloat
+    , className =? "discord"        --> doShift "com"
     ] <+> namedScratchpadManageHook myScratchpads
 
 ------------------------------------------------------------------------
@@ -311,6 +312,14 @@ myLogHook xmproc = dynamicLogWithPP $ xmobarPP
   , ppSep             = "<fc=#666666> <fn=0>|</fn> </fc>"
   , ppUrgent          = xmobarColor red        "" . wrap "!" "!"
   , ppExtras          = [windowCount]
+  , ppLayout          =
+      wrap "<fn=4>" "</fn>" .
+      (\case
+        "Spacing Full"           -> "🖵"
+        "Spacing Tall"           -> "🗗"
+        "Spacing Magnifier Tall" -> "\128269" -- 🔍
+        "Spacing Mirror Tall"    -> "\129694" -- 🪞
+      )
   , ppOrder           = \(ws:l:t:ex) -> [ws,l] ++ ex ++ [t]
   }
 
@@ -324,7 +333,7 @@ myLogHook xmproc = dynamicLogWithPP $ xmobarPP
 myStartupHook :: X ()
 myStartupHook = do
   spawn "stalonetray &"
-  -- spawnOnce "$HOME/.xmonad/xinit.sh"
+  spawnOnce "$HOME/.xmonad/setup-script/xinit.sh"
 
 myRestartHook :: X ()
 myRestartHook = do
