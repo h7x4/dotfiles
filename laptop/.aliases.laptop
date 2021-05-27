@@ -4,5 +4,6 @@
 alias disable-touch="xinput set-prop 16 'Device Enabled' 0"
 alias enable-touch="xinput set-prop 16 'Device Enabled' 1"
 
+alias singleScreen="xrandr --output DP-3 --off"
 alias doubleScreen="xrandr --output DP-3 --mode 1920x1080"
-alias exScreen="xrandr --output DP-3 --mode 1920x1080 --right-of eDP-1"
+alias extendScreen="xrandr --output DP-3 --mode 1920x1080 --right-of eDP-1"
