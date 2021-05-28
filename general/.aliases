@@ -48,6 +48,10 @@ if command -v bat &> /dev/null; then
   alias cat='bat'
 fi
 
+if command -v netstat &> /dev/null; then
+  alias ports='sudo netstat -tulpn | grep LISTEN'
+fi
+
 # ░█▀▀░█▀█░█░░░█▀█░█▀▄
 # ░█░░░█░█░█░░░█░█░█▀▄
 # ░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀
