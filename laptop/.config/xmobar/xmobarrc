@@ -60,6 +60,7 @@ Config {
         "--high", "green",
         "--",
         "-O", "<fc=green>🔌</fc>",
+        "-i", "<fc=#00b7ff>🔌</fc>",
         "-o", "<fc=yellow>🔋</fc>"
       ] 50
 
