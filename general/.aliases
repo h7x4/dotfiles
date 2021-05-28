@@ -57,6 +57,10 @@ if command -v netstat &> /dev/null; then
   alias ports='sudo netstat -tulpn | grep LISTEN'
 fi
 
+if command -v latexmk &> /dev/null; then
+  alias view-latex='latexmk -pdf -pvc main.tex'
+fi
+
 # alias tangle-doom-emacs='cd $HOME/.doom.d && $HOME/.emacs.d/bin/org-tangle config.org && cd -'
 
 if command -v xmonad &> /dev/null; then
