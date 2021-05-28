@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
-export SCREENSHOT_DIR='~/pictures/screenshots'
+# When using zsh, see also
+# $HOME/.oh-my-zsh/lib
 
-# ░█▀█░█▀▄░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀
-# ░█▀▀░█▀▄░█░█░█░█░█▀▄░█▀█░█░█░▀▀█
-# ░▀░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀
+export SCREENSHOT_DIR='$HOME/pictures/screenshots'
+
+# ░█▀▀░█░█░▀█▀░░░█▀▀░█▀█░█▀▀░▀█▀░█░█░█▀█░█▀▄░█▀▀
+# ░█▀▀░▄▀▄░░█░░░░▀▀█░█░█░█▀▀░░█░░█▄█░█▀█░█▀▄░█▀▀
+# ░▀▀▀░▀░▀░░▀░░░░▀▀▀░▀▀▀░▀░░░░▀░░▀░▀░▀░▀░▀░▀░▀▀▀
 
 alias m="ncmpcpp"
 
@@ -32,15 +35,17 @@ if command -v youtube-dl &> /dev/null; then
 fi
 
 if command -v maim &> /dev/null; then
-  alias skusho='maim -u -k $(echo $SCREENSHOT_DIR)/$(date +%s).png'
+  alias skusho='maim --hidecursor --nokeyboard $(echo $SCREENSHOT_DIR)/$(date +%s).png'
 
   if command -v xclip &> /dev/null; then
-    alias skushoclip='maim -k -s -u | xclip -selection clipboard -t image/png -i'
+    alias skushoclip='maim --hidecursor --nokeyboard --select | xclip -selection clipboard -target image/png -in'
   fi
 fi
 
 if command -v rsync &> /dev/null; then
-  alias cp='rsync --progress -h'
+  alias ccp='/usr/bin/cp'
+  alias cp='rsync --progress --human-readable'
+  alias cpr='rsync --progress --human-readable --recursive'
 fi
 
 if command -v bat &> /dev/null; then
@@ -52,16 +57,29 @@ if command -v netstat &> /dev/null; then
   alias ports='sudo netstat -tulpn | grep LISTEN'
 fi
 
+# alias tangle-doom-emacs='cd $HOME/.doom.d && $HOME/.emacs.d/bin/org-tangle config.org && cd -'
+
+if command -v xmonad &> /dev/null; then
+  alias xr='xmonad --recompile'
+
+  # TODO: Update to paru
+  alias xmr='yay -S xmobar-git --answerclean A --answerdiff N'
+  alias xxmr='xr; xmr'
+fi
+
+if [[ -f $HOME/.scripts/dropbox.py ]]; then
+  alias dp="python $HOME/.scripts/dropbox.py"
+fi
+
 # ░█▀▀░█▀█░█░░░█▀█░█▀▄
 # ░█░░░█░█░█░░░█░█░█▀▄
 # ░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀
 
-
 if command -v exa &> /dev/null; then
+  alias lls='/usr/bin/ls'
   alias ls='exa'
-  alias ll='exa --long --header --git'
-  alias sl='exa -a --long --header --git'
-  alias la='exa -a'
+  alias sl='ls'
+  alias lsa='exa -lah --changed --time-style long-iso --git --group'
 else
   alias ls='ls --group-directories-first --color=auto'
   alias ll='ls -alFh --group-directories-first  --color=auto'
@@ -74,36 +92,12 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-alias echo-colors='for x in 0 1 4 5 7 8; do for i in {30..37}; do for a in {40..47}; do echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "; done; echo; done; done; echo "";'
+# ░█▀▄░▀█▀░█▀▄░░░▀▀█░█░█░█▄█░█▀█░█▀▀
+# ░█░█░░█░░█▀▄░░░░░█░█░█░█░█░█▀▀░▀▀█
+# ░▀▀░░▀▀▀░▀░▀░░░▀▀░░▀▀▀░▀░▀░▀░░░▀▀▀
 
-# ░█▄█░▀█▀░█▀▀░█▀▀
-# ░█░█░░█░░▀▀█░█░░
-# ░▀░▀░▀▀▀░▀▀▀░▀▀▀
-
-# Cd to git folder
-alias gt='cd ~/git'
-
-# Make ftp server
-alias makeftp='python -m pyftpdlib --directory=$HOME/ --port=2121'
-
-# Get current Fcitx mode
-alias get-fcitx-mode='qdbus "org.fcitx.Fcitx" "/inputmethod" "GetCurrentIM"'
-
-c-file() {
-  nvim $($HOME/.scripts/rofi/config-selector.py)
-}
-
-alias openfile='~/.scripts/rofi/config-selector.py | xargs nvim'
-
-# alias tangle-doom-emacs='cd $HOME/.doom.d && $HOME/.emacs.d/bin/org-tangle config.org && cd -'
-
-alias xr='xmonad --recompile'
-
-# TODO: Update to paru
-alias xmr='yay -S xmobar-git --answerclean A --answerdiff N'
-alias xxmr='xr; xmr'
-
-alias killall-tmux='tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I{} tmux kill-session -t {}'
+alias gt='cd $HOME/git'
+alias tmp='cd /tmp'
 
 alias cd..='cd ..'
 alias ..='cd ..'
@@ -112,24 +106,81 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
+# ░█▄█░▀█▀░█▀▀░█▀▀
+# ░█░█░░█░░▀▀█░█░░
+# ░▀░▀░▀▀▀░▀▀▀░▀▀▀
+
+alias sz='du -sh'
+
+alias realias='source $HOME/.aliases'
+
+alias openfile='$HOME/.scripts/rofi/config-selector.py | xargs nvim'
+
 alias q='exit'
+
+alias rmr='rmdir'
+
+alias pagga='toilet -f pagga' 
 
 # Supposed to be used as a pipe: "cat file | rainbow"
 alias rainbow='toilet -f pagga | lolcat'
 
-if [[ -f ~/.scripts/dropbox.py ]]; then
-  alias dp="python ~/.scripts/dropbox.py"
+# ░█▀█░█▀█░█▀▀░█░░░▀█▀░█▀█░█▀▀░█▀▄░█▀▀
+# ░█░█░█░█░█▀▀░█░░░░█░░█░█░█▀▀░█▀▄░▀▀█
+# ░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀
+
+alias killall-tmux='tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I{} tmux kill-session -t {}'
+
+# Get current Fcitx mode
+alias get-fcitx-mode='qdbus "org.fcitx.Fcitx" "/inputmethod" "GetCurrentIM"'
+
+alias wcd='find . -type f -exec cat {} + | wc -l'
+
+# Make ftp server
+alias makeftp='python -m pyftpdlib --directory=$HOME/ --port=2121'
+
+alias echo-colors='for x in 0 1 4 5 7 8; do for i in {30..37}; do for a in {40..47}; do echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "; done; echo; done; done; echo "";'
+
+# ░█▀▀░█░█░█▀█░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀
+# ░█▀▀░█░█░█░█░█░░░░█░░░█░░█░█░█░█░▀▀█
+# ░▀░░░▀▀▀░▀░▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀
+
+gac(){
+  git add $1 && git commit -a -m $2
+}
+
+c-file() {
+  nvim $($HOME/.scripts/rofi/config-selector.py)
+}
+
+if command -v netstat &> /dev/null; then
+  # Usage: $ conn-ips 80
+  conn-ips() {
+    netstat -tn 2>/dev/null | grep :$1 | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr | head
+  }
 fi
 
-if [[ -f ~/.aliases.private ]]; then
-  source ~/.aliases.private
+
+# ░█▀▀░█▀█░█░█░█▀▄░█▀▀░█▀▀░█▀▀
+# ░▀▀█░█░█░█░█░█▀▄░█░░░█▀▀░▀▀█
+# ░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀
+
+if [[ -f $HOME/.aliases.private ]]; then
+  source $HOME/.aliases.private
 fi
 
-if [[ -f ~/.aliases.desktop ]]; then
-  source ~/.aliases.desktop
+if [[ -f $HOME/.aliases.desktop ]]; then
+  source $HOME/.aliases.desktop
 fi
 
-if [[ -f ~/.aliases.laptop ]]; then
-  source ~/.aliases.laptop
+if [[ -f $HOME/.aliases.laptop ]]; then
+  source $HOME/.aliases.laptop
+fi
+
+if [[ -d "$HOME/.project-template-aliases" ]]; then
+  for f in $(find $HOME/.project-template-aliases/ -maxdepth 1 -type f)
+  do
+    source $f
+  done
 fi
 

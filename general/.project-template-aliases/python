@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+project-venv() {
+  mkdir $1
+  cd $1
+  python -m venv venv
+  echo venv > .gitignore
+	source venv/bin/activate
+}

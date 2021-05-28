@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+project-latex () {
+	mkdir $1
+	cd $1
+	mkdir graphics
+	mkdir scripts
+	cp $HOME/.project-template-aliases/latex-resources/main.tex .
+	cp $HOME/.project-template-aliases/latex-resources/.latexmkrc .
+	cp $HOME/.project-template-aliases/latex-resources/bibliography.bib .
+}
