@@ -1,0 +1,5 @@
+#!/bin/bash
+# Check which files dropbox is modifying
+
+ls -l /proc/$(pidof dropbox)/fd | egrep -v 'pipe:|socket:|/dev' | grep "$DROPBOX_DIR/[^.]"
+
