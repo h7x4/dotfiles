@@ -65,8 +65,8 @@ Config {
 
   ]
   , sepChar = "%"
-  , alignSep = "}{" -- <fc=#7700ff><icon=/home/h7x4/.config/xmobar/lambda-30.xbm/></fc>
-  , template = " <icon=lambda_30.xpm/> %mpc% %UnsafeStdinReader% }\
+  , alignSep = "}{"
+  , template = " <icon=lambda.xpm/> %mpc% %UnsafeStdinReader% }\
     \ <fc=#ee9a00>%date%</fc> \
     \{ <fc=lightgreen><fn=2>🐏</fn> %memory%</fc> | <fc=cyan>%wlp59s0%</fc> | <fc=#f5f1bc><fn=3>%vol%</fn></fc> | %battery%                                    "
 }
