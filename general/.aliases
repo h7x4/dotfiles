@@ -73,6 +73,7 @@ fi
 
 if [[ -f $HOME/.scripts/dropbox.py ]]; then
   alias dp="python $HOME/.scripts/dropbox.py"
+  alias openfile='$HOME/.scripts/rofi/config-selector.py | xargs nvim'
 fi
 
 # ░█▀▀░█▀█░█░░░█▀█░█▀▄
@@ -118,8 +119,6 @@ alias ......='cd ../../../../..'
 alias sz='du -sh'
 
 alias realias='source $HOME/.aliases'
-
-alias openfile='$HOME/.scripts/rofi/config-selector.py | xargs nvim'
 
 alias q='exit'
 
