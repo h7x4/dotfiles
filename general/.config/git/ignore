@@ -1,0 +1,26 @@
+
+# Vim stuff
+*.swp
+.*.sw[a-z]
+*.un~
+.netrwhist
+
+# Emacs stuff
+.projectile
+*~
+*.*~
+\#*
+.\#*
+
+# LaTeX
+aux/
+*.log # This might have som false positives
+*.aux
+*.out
+*.toc
+*.snm
+*.synctex.gz
+
+# Python
+__pycache__/
+*.pyc
