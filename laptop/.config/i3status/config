@@ -1,0 +1,49 @@
+general {
+        output_format = "i3bar"
+        colors = false
+        markup = pango
+        interval = 5
+        color_good = '#2f343f'
+		color_degraded = '#ebcb8b'
+		color_bad = '#ba5e57'
+}
+
+order += "wireless wlp59s0"
+order += "disk /"
+order += "volume master"
+order += "battery 0"
+order += "tztime local"
+
+wireless wlp59s0 {
+        format_up = "<span background='#5b3278' color='#ffffff'> Ꮃ %essid </span>"
+        format_down = "<span background='#5b3278' color='#ffffff'> Ꮃ ✗ </span>"
+}
+
+disk "/" {
+        format = "<span background='#f0801e' color='#ffffff'>  %avail/%total </span>"
+}
+
+volume master {
+        format = "<span background='#478dbf'> V %volume </span>"
+        format_muted = "<span background='#478dbf'> ℣ %volume </span>"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
+
+battery 0 {
+	last_full_capacity = true
+        format = "<span background='#8abf47'> %status %percentage </span>"
+        format_down = "No Battery"
+        status_chr = "🔌"
+        status_bat = "🗲"
+        status_unk = "???"
+        status_full = "✔"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
+}
+
+tztime local {
+		format = "<span background='#bf4747'> %time </span>"
+		format_time = " %a %-d %b %H:%M"
+}
