@@ -1,0 +1,17 @@
+configuration {
+	font: "Droid Sans 12";
+	show-icons: true;
+	drun-display-format: "{name}";
+	fullscreen: false;
+	threads: 0;
+	matching: "fuzzy";
+	scroll-method: 0;
+	disable-history: false;
+	fullscreen: false;
+	window-thumbnail: true;
+  kb-row-up: "Up,Alt+k";
+  kb-row-down: "Down,Alt+j";
+  kb-row-left: "Alt+h";
+  kb-row-right: "Alt+l";
+  theme: "themes/blank.rasi";
+}
