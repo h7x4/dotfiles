@@ -112,6 +112,13 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
+alias rrn='chmod 440'
+alias wwn='chmod 660'
+alias xxn='chmod 770'
+alias rrx='chmod 445'
+alias wwr='chmod 664'
+alias x3='chmod 775'
+
 # ░█▄█░▀█▀░█▀▀░█▀▀
 # ░█░█░░█░░▀▀█░█░░
 # ░▀░▀░▀▀▀░▀▀▀░▀▀▀
