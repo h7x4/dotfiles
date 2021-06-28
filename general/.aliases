@@ -66,8 +66,7 @@ fi
 if command -v xmonad &> /dev/null; then
   alias xr='xmonad --recompile'
 
-  # TODO: Update to paru
-  alias xmr='yay -S xmobar-git --answerclean A --answerdiff N'
+  alias xmr='paru -S xmobar-git --noconfirm'
   alias xxmr='xr; xmr'
 fi
 
@@ -140,7 +139,7 @@ alias rainbow='toilet -f pagga | lolcat'
 # ░█░█░█░█░█▀▀░█░░░░█░░█░█░█▀▀░█▀▄░▀▀█
 # ░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀
 
-alias killall-tmux='tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I{} tmux kill-session -t {}'
+alias killall-tmux="tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I{} tmux kill-session -t {}"
 
 # Get current Fcitx mode
 alias get-fcitx-mode='qdbus "org.fcitx.Fcitx" "/inputmethod" "GetCurrentIM"'
