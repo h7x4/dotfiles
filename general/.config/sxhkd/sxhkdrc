@@ -1,14 +1,14 @@
 
 # make sxhkd reload its configuration files:
 super + Escape
-	pkill -USR1 -x sxhkd
+	pkill -USR1 -x sxhkd && notify-send -t 3000 "sxhkd configuration reloaded"
 
 # Applications
 
-super + e
+super + w
 	emacs
 
-super + shift + e
+super + e
 	$FILEBROWSER
 
 super + s
@@ -67,5 +67,22 @@ super + {b,n,m}
 super + v
 	rofi -modi lpass:$HOME/.scripts/rofi/lpass//rofi-lpass -show lpass
 
-super + -
+super + minus
   xcalib -invert -alter
+
+# ¯\_(ツ)_/¯
+super + shift + s
+	sleep 0.3; \
+	xdotool key U00AF; \
+	xdotool key U005C; \
+	xdotool key U005F; \
+	xdotool key U0028; \
+	xdotool key U30C4; \
+	xdotool key U0029; \
+	xdotool key U005F; \
+	xdotool key U002F; \
+	xdotool key U00AF
+
+# é
+super + shift + e
+	sleep 0.3; xdotool key U00E9
