@@ -1,0 +1,71 @@
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# Applications
+
+super + e
+	emacs
+
+super + shift + e
+	$FILEBROWSER
+
+super + s
+	$BROWSER
+
+super + r
+	rofi -show drun
+
+# Volume
+
+super + {@F7,@F8}
+	amixer set Master 2%{-,+}
+
+{XF86AudioLowerVolume,XF86AudioRaiseVolume}
+	amixer set Master 2%{-,+}
+
+XF86AudioMute	
+	pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Music
+
+super + p
+	mpc toggle
+
+XF86AudioPlay
+	mpc toggle
+XF86AudioPrev
+	mpc prev
+XF86AudioNext
+  mpc next
+
+# Monitor
+
+XF86MonBrightnessUp
+  light -A 5
+XF86MonBrightnessDown
+  light -U 5
+
+@Print
+	skushoclip
+
+shift + @Print
+	skusho
+
+super + @Print
+  boomer
+
+# Misc
+
+super + a
+	copyq toggle
+
+super + {b,n,m}
+	fcitx-remote -s {mozc,fcitx-keyboard-no,fcitx-keyboard-us}
+
+super + v
+	rofi -modi lpass:$HOME/.scripts/rofi/lpass//rofi-lpass -show lpass
+
+super + -
+  xcalib -invert -alter

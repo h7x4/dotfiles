@@ -16,6 +16,8 @@ import XMonad.ManageHook
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+import qualified Data.List       as L
+import Data.Maybe
 
 import XMonad.Util.Run (spawnPipe, hPutStrLn, runProcessWithInput)
 import XMonad.Util.NamedScratchpad
@@ -57,7 +59,8 @@ cyan       = "#a1efe4"
 type TerminalCommand = String
 
 myTerminal      = "alacritty"
-myBrowser       = "qutebrowser"
+-- myBrowser       = "qutebrowser"
+myBrowser       = "google-chrome-stable"
 myFileBrowser   = "thunar"
 
 emacsCommand :: TerminalCommand
@@ -93,9 +96,15 @@ myScratchpads = [ NS "ncmpcpp" spawnNC findNC layoutNC
       t = 0.05
       l = 0.05
 
-    spawnTM  = myTerminal ++ " --class instanceClass,floatingTerminal -e tmux new-session -A -s floating"
+    spawnTM  = myTerminal ++ " --class instanceClass,floatingTerminal -e tmux new-session -A -s f"
     findTM   = className =? "floatingTerminal"
-    layoutTM = customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)
+                                              
+    layoutTM = customFloating $ W.RationalRect l t w h
+      where
+        l = 0.025
+        t = 0.05
+        h = 0.9
+        w = 0.95
 
     spawnSC  = "sxiv ~/uni/schedule.png"
     findSC   = className =? "sxiv"
@@ -151,47 +160,56 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- TODO: Clean up formatting
 
     [
-      ((modm .|. shiftMask , xK_Return),    spawn $ myTerminal ++ " -e tmux")
+      ((modm .|. shiftMask , xK_Return),    spawn $ myTerminal ++ " --class instanceClass,termTerminal -e tmux new-session -A -s term")
     , ((modm               , xK_BackSpace), kill)
     , ((modm               , xK_s),         spawn myBrowser)
     , ((modm               , xK_f),         sendMessage $ Toggle FULL)
-    , ((modm .|. shiftMask , xK_w),         spawn "io.elementary.code -t")
-    , ((modm               , xK_a),         spawn "copyq toggle")
-    , ((modm               , xK_e),         spawn emacsCommand)
-    , ((modm .|. shiftMask , xK_e),         spawn myFileBrowser)
-    , ((modm               , xK_r),         spawn "rofi -show drun")
-    , ((modm               , xK_p),         spawn "mpc toggle")
+    -- , ((modm .|. shiftMask , xK_w),         spawn "io.elementary.code -t")
+    -- , ((modm               , xK_a),         spawn "copyq toggle")
+    -- , ((modm               , xK_e),         spawn emacsCommand)
+    -- , ((modm .|. shiftMask , xK_e),         spawn myFileBrowser)
+    -- , ((modm               , xK_r),         spawn "rofi -show drun")
+    -- , ((modm               , xK_p),         spawn "mpc toggle")
     , ((modm               , xK_q),         namedScratchpadAction myScratchpads "ncmpcpp")
     , ((modm               , xK_minus),     namedScratchpadAction myScratchpads "schedule")
-    , ((modm               , xK_F7),        spawn "amixer set Master 2%-")
-    , ((modm               , xK_F8),        spawn "amixer set Master 2%+")
+    -- , ((modm               , xK_F7),        spawn "amixer set Master 2%-")
+    -- , ((modm               , xK_F8),        spawn "amixer set Master 2%+")
     -- , ((modm               , xK_c),         spawn myTerminal ++ " -e cfile")
-    , ((modm               , xK_n),         spawn "fcitx-remote -s fcitx-keyboard-no")
-    , ((modm               , xK_m),         spawn "fcitx-remote -s fcitx-keyboard-us")
-    , ((modm               , xK_b),         spawn "fcitx-remote -s mozc")
+    -- , ((modm               , xK_n),         spawn "fcitx-remote -s fcitx-keyboard-no")
+    -- , ((modm               , xK_m),         spawn "fcitx-remote -s fcitx-keyboard-us")
+    -- , ((modm               , xK_b),         spawn "fcitx-remote -s mozc")
     , ((modm               , xK_Return),    namedScratchpadAction myScratchpads "terminal")
     , ((modm               , xK_space ),    namedScratchpadAction myScratchpads "terminal")
     , ((modm .|. shiftMask , xK_space ),    spawn $ myTerminal ++ " -e tmux")
-    , ((0                  , xK_Print ),    spawn "skushoclip")
-    , ((shiftMask          , xK_Print ),    spawn "skusho")
-    , ((modm               , xK_Print ),    spawn "$HOME/.scripts/git/boomer/boomer")
+    -- , ((0                  , xK_Print ),    spawn "skushoclip")
+    -- , ((shiftMask          , xK_Print ),    spawn "skusho")
+    -- , ((modm               , xK_Print ),    spawn "$HOME/.scripts/git/boomer/boomer")
     , ((modm               , xK_v ),        spawn "rofi -modi lpass:$HOME/.scripts/rofi/lpass//rofi-lpass -show lpass")
 
-    , ((0, xF86XK_AudioRaiseVolume   ), spawn "amixer set Master 2%+")
-    , ((0, xF86XK_AudioLowerVolume   ), spawn "amixer set Master 2%-")
-    , ((0, xF86XK_AudioMute          ), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+    -- , ((0, xF86XK_AudioRaiseVolume   ), spawn "amixer set Master 2%+")
+    -- , ((0, xF86XK_AudioLowerVolume   ), spawn "amixer set Master 2%-")
+    -- , ((0, xF86XK_AudioMute          ), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
 
-    , ((0, xF86XK_AudioPlay          ), spawn "mpc toggle")
-    , ((0, xF86XK_AudioPrev          ), spawn "mpc prev")
-    , ((0, xF86XK_AudioNext          ), spawn "mpc next")
+    -- , ((0, xF86XK_AudioPlay          ), spawn "mpc toggle")
+    -- , ((0, xF86XK_AudioPrev          ), spawn "mpc prev")
+    -- , ((0, xF86XK_AudioNext          ), spawn "mpc next")
 
-    , ((0, xF86XK_MonBrightnessUp    ), spawn "light -A 5")
-    , ((0, xF86XK_MonBrightnessDown  ), spawn "light -U 5")
+    -- , ((0, xF86XK_MonBrightnessUp    ), spawn "light -A 5")
+    -- , ((0, xF86XK_MonBrightnessDown  ), spawn "light -U 5")
 
     , ((modm .|. shiftMask, xK_slash ), namedScratchpadAction myScratchpads "help")
     , ((modm .|. shiftMask, xK_d     ), viewDropboxStatus)
     ]
 
+termIsOpen :: X Bool
+termIsOpen = isOpen
+  where 
+    output :: X String
+    output = liftIO $ runProcessWithInput "tmux" ["ls", "-F", "#{session_name}", "#{?session_attached,1,}"] ""
+
+    isOpen = ((\(Just x) -> (x!!5) == '1')
+             <$> (listToMaybe . filter (L.isInfixOf "term") . lines))
+             <$> output
 
 viewDropboxStatus :: X ()
 viewDropboxStatus = spawn =<< ((++) "notify-send -t 3000 " . unpack) <$> status
@@ -346,7 +364,7 @@ myRestartHook = do
 
 main :: IO ()
 main = do
-  xmproc <- spawnPipe "xmobar"
+  xmproc <- spawnPipe "xmobar --recompile"
   xmonad
     $ fullscreenSupport
     $ docks def {
