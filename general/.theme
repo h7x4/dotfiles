@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+if [ "$THEME" == "monokai"]; then
+  export $COLOR_CURSOR='#f8f8f2'
+  export $COLOR_BACKGROUND='#272822'
+  export $COLOR_FOREGROUND='#f8f8f2'
+
+  export $COLOR_BLACK='#272822'
+  export $COLOR_RED='#f92672'
+  export $COLOR_GREEN='#a6e22e'
+  export $COLOR_YELLOW='#f4bf75'
+  export $COLOR_BLUE='#66d9ef'
+  export $COLOR_MAGENTA='#ae81ff'
+  export $COLOR_CYAN='#a1efe4'
+  export $COLOR_WHITE='#f8f8f2'
+
+  export $COLOR_BRIGHT_BLACK='#272822'
+  export $COLOR_BRIGHT_RED='#f92672'
+  export $COLOR_BRIGHT_GREEN='#a6e22e'
+  export $COLOR_BRIGHT_YELLOW='#f4bf75'
+  export $COLOR_BRIGHT_BLUE='#66d9ef'
+  export $COLOR_BRIGHT_MAGENTA='#ae81ff'
+  export $COLOR_BRIGHT_CYAN='#a1efe4'
+  export $COLOR_BRIGHT_WHITE='#f8f8f2'
+
+elif [ "$THEME" == "paper"]; then
+  export $COLOR_CURSOR='#20fccf'
+  export $COLOR_BACKGROUND='#f2e3bd'
+  export $COLOR_FOREGROUND='#2f343f'
+
+  export $COLOR_BLACK='#222222'
+  export $COLOR_RED='#C30771'
+  export $COLOR_GREEN='#10A778'
+  export $COLOR_YELLOW='#A89C14'
+  export $COLOR_BLUE='#008ec4'
+  export $COLOR_MAGENTA='#523C79'
+  export $COLOR_CYAN='#20A5BA'
+  export $COLOR_WHITE='#f7f3ee'
+
+  export $COLOR_BRIGHT_BLACK='#303030'
+  export $COLOR_BRIGHT_RED='#E32791'
+  export $COLOR_BRIGHT_GREEN='#5FD7A7'
+  export $COLOR_BRIGHT_YELLOW='#F3E430'
+  export $COLOR_BRIGHT_BLUE='#B6D6FD'
+  export $COLOR_BRIGHT_MAGENTA='#6855DE'
+  export $COLOR_BRIGHT_CYAN='#4FB8CC'
+  export $COLOR_BRIGHT_WHITE='#f7f3ee'
+fi
