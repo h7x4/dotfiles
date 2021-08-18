@@ -10,6 +10,12 @@
 !.config/fcitx/profile
 !.config/fcitx/conf
 
+.config/desmume/*
+!.config/desmume/config.cfg
+
+.config/gh/*
+!.config/gh/config.yml
+
 .emacs.d/*
 !.emacs.d/config.org
 !.emacs.d/logo.svg
