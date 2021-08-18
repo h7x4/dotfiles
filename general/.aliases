@@ -30,7 +30,7 @@ fi
  
 if command -v youtube-dl &> /dev/null; then
   alias youtube-dl-list='youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio" -o "%(playlist_index)s-%(title)s.%(ext)s"'
-  alias music-dl='youtube-dl --extract-audio -f "bestaudio[ext=m4a]/best""'
+  alias music-dl='youtube-dl --extract-audio -f "bestaudio[ext=m4a]/best"'
   alias music-dl-list='youtube-dl --extract-audio -f "bestaudio[ext=m4a]/best" -o "%(playlist_index)s-%(title)s.%(ext)s"'
 fi
 
@@ -97,6 +97,8 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias ip='ip --color'
 
+alias gpg-tui='gpg-tui --style colored'
+
 # ░█▀▄░▀█▀░█▀▄░░░▀▀█░█░█░█▄█░█▀█░█▀▀
 # ░█░█░░█░░█▀▄░░░░░█░█░█░█░█░█▀▀░▀▀█
 # ░▀▀░░▀▀▀░▀░▀░░░▀▀░░▀▀▀░▀░▀░▀░░░▀▀▀
@@ -122,7 +124,7 @@ alias x3='chmod 775'
 # ░█░█░░█░░▀▀█░█░░
 # ░▀░▀░▀▀▀░▀▀▀░▀▀▀
 
-alias sz='du -sh'
+alias dush='du -sh'
 
 alias realias='source $HOME/.aliases'
 
