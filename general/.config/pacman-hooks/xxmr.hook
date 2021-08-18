@@ -1,0 +1,11 @@
+# Recompile Xmonad and Xmobar on package installation
+
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Depends = xmonad xmonad-contrib
+When = PostTransaction
+Exec = xxmr
