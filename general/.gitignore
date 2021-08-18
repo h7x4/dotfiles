@@ -5,6 +5,11 @@
 .config/zsh/.zcompdump
 .config/zsh/.zsh_history
 
+.config/fcitx/*
+!.config/fcitx/config
+!.config/fcitx/profile
+!.config/fcitx/conf
+
 .emacs.d/*
 !.emacs.d/config.org
 !.emacs.d/logo.svg
