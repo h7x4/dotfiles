@@ -10,7 +10,7 @@
 * Use-package
 
 #+BEGIN_SRC elisp
-(setq user-emacs-directory (substitute-in-file-name "$HOME/.emacs.d"))
+; (setq user-emacs-directory (substitute-in-file-name "$HOME/.emacs.d"))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -36,7 +36,6 @@
     :states 'motion
     :prefix "SPC"
 		:non-normal-prefix "C-SPC"))
-    ;:non-normal-prefix "SPC"))
 #+END_SRC
 
 Base keys
@@ -48,69 +47,69 @@ p - project management
 w - multiple cursors
 
 #+BEGIN_SRC elisp
-  (leader-key
-      ""     nil
-      "c"   (general-simulate-key "C-c" :which-key "C-c")
-      "u"   (general-simulate-key "C-u" :which-key "C-u")
-      "x"   (general-simulate-key "C-x" :which-key "C-x")
-    
-      "m"   '(:ignore t :which-key "mode")
-      "mx"  'nil
-    
-      ;; Help
-      "h"   (general-simulate-key "<f1>" :which-key "C-h")
-      
-      ;; Insert
-      "i"   '(:ignore t :which-key "C-h")
-      "ix"  'nil
+(leader-key
+  ""     nil
+  "c"   (general-simulate-key "C-c" :which-key "C-c")
+  "u"   (general-simulate-key "C-u" :which-key "C-u")
+  "x"   (general-simulate-key "C-x" :which-key "C-x")
+  
+  "m"   '(:ignore t :which-key "mode")
+  "mx"  'nil
+  
+  ;; Help
+  "h"   (general-simulate-key "<f1>" :which-key "C-h")
+  
+  ;; Insert
+  "i"   '(:ignore t :which-key "C-h")
+  "ix"  'nil
 
-      ;; Package manager
-      ;; "p"   '(:ignore t :which-key "packages")
-      ;; "pl"  'list-packages
+  ;; Package manager
+  ;; "p"   '(:ignore t :which-key "packages")
+  ;; "pl"  'list-packages
 
-      ;; Quit operations
-      "q"	  '(:ignore t :which-key "quit emacs")
-      "qq"  'kill-emacs
-      "qz"  'delete-frame
+  ;; Quit operations
+  "q"	  '(:ignore t :which-key "quit emacs")
+  "qq"  'kill-emacs
+  "qz"  'delete-frame
 
-      ;; Buffer operations
-      "b"   '(:ignore t :which-key "buffer")
-      "bb"  'mode-line-other-buffer
-      "bk"  'kill-this-buffer
-      ;; "bn"  'next-buffer
-      ;; "bp"  'previous-buffer
-      "bq"  'kill-buffer-and-window
-      ;; "bR"  'rename-file-and-buffer
-      "br"  'revert-buffer
+  ;; Buffer operations
+  "b"   '(:ignore t :which-key "buffer")
+  "bb"  'mode-line-other-buffer
+  "bk"  'kill-this-buffer
+  ;; "bn"  'next-buffer
+  ;; "bp"  'previous-buffer
+  "bq"  'kill-buffer-and-window
+  ;; "bR"  'rename-file-and-buffer
+  "br"  'revert-buffer
 
-      ;; Window operations
-      "w"   '(:ignore t :which-key "window")
-      "wm"  'maximize-window
-      "wh"  'split-window-horizontally
-      "wg"  'split-window-vertically
-      ;; "wu"  'winner-undo
-      "ww"  'other-window
-      "wk"  'delete-window
-      "wD"  'delete-other-windows
+  ;; Window operations
+  "w"   '(:ignore t :which-key "window")
+  "wm"  'maximize-window
+  "wh"  'split-window-horizontally
+  "wg"  'split-window-vertically
+  ;; "wu"  'winner-undo
+  "ww"  'other-window
+  "wk"  'delete-window
+  "wD"  'delete-other-windows
 
-      ;; File operations
-      "f"   '(:ignore t :which-key "find")
-      ; "fc"  'write-file
-      ; "fe"  '(:ignore t :which-key "emacs")
-      ;; "fed" 'find-user-init-file
-      ;; "feR" 'load-user-init-file
-      ; "fj"  'dired-jump
-      "fl"  'find-file-literally
-      ;; "fR"  'rename-file-and-buffer
-      "fs"  'save-buffer
+  ;; File operations
+  "f"   '(:ignore t :which-key "find")
+  ; "fc"  'write-file
+  ; "fe"  '(:ignore t :which-key "emacs")
+  ;; "fed" 'find-user-init-file
+  ;; "feR" 'load-user-init-file
+  ; "fj"  'dired-jump
+  "fl"  'find-file-literally
+  ;; "fR"  'rename-file-and-buffer
+  "fs"  'save-buffer
 
-      ;; Applications
-      "a"   '(:ignore t :which-key "apps")
-      "ad"  'dired
-      ":"   'shell-command
-      ";"   'eval-expression
-      "ac"  'calendar
-      "oa"  'org-agenda)
+  ;; Applications
+  "a"   '(:ignore t :which-key "apps")
+  "ad"  'dired
+  ":"   'shell-command
+  ";"   'eval-expression
+  "ac"  'calendar
+  "oa"  'org-agenda)
 #+END_SRC
 
 General keys
@@ -156,40 +155,41 @@ Put backup files in emacs.d/temp
 ** Evil mode
 
 #+BEGIN_SRC elisp
-  (use-package evil
-    :demand t
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-  
-    :general ; (leader-key
-      ; "wh" '(evil-window-left  :which-key "←")
-      ; "wj" '(evil-window-down  :which-key "↓")
-      ; "wk" '(evil-window-up    :which-key "↑")
-      ; "wl" '(evil-window-right :which-key "→")) 
-    ([remap evil-ex-search-forward] 'swiper)
-    ([remap evil-ex-search-backward] 'swiper-backward)
+(use-package evil
+  :demand t
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
 
-    :bind (
-      ("C-h" . evil-window-left)
-      ("C-j" . evil-window-down)
-      ("C-k" . evil-window-up)
-      ("C-l" . evil-window-right)
-      :map evil-insert-state-map
+  :general ; (leader-key
+    ; "wh" '(evil-window-left  :which-key "←")
+    ; "wj" '(evil-window-down  :which-key "↓")
+    ; "wk" '(evil-window-up    :which-key "↑")
+    ; "wl" '(evil-window-right :which-key "→")) 
+  ([remap evil-ex-search-forward] 'swiper)
+  ([remap evil-ex-search-backward] 'swiper-backward)
+
+  :bind (
+    ("C-h" . evil-window-left)
+    ("C-j" . evil-window-down)
+    ("C-k" . evil-window-up)
+    ("C-l" . evil-window-right)
+
+    :map evil-insert-state-map
       ("C-g" . evil-normal-state)
       ("C-h" . evil-delete-backward-char-and-join))
-  
-    :config
 
-		  ;; :q should kill the current buffer rather than quitting emacs entirely
-		  (evil-ex-define-cmd "q" 'kill-this-buffer)
-		  ;; Need to type out :quit to close emacs
-		  (evil-ex-define-cmd "quit" 'evil-quit)
-  
-      (evil-set-initial-state 'messages-buffer-mode 'normal)
-      (evil-set-initial-state 'dashboard-mode 'normal)
+  :config
 
-      (evil-mode 1))
+	  ;; :q should kill the current buffer rather than quitting emacs entirely
+	  (evil-ex-define-cmd "q" 'kill-this-buffer)
+	  ;; Need to type out :quit to close emacs
+	  (evil-ex-define-cmd "quit" 'evil-quit)
+
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal)
+
+    (evil-mode 1))
   #+END_SRC
   
 
@@ -213,22 +213,16 @@ Put backup files in emacs.d/temp
 Evil escape mode
 
 #+BEGIN_SRC emacs-lisp
- (use-package evil-escape
-   :after (evil company)
-   :diminish evil-escape-mode
-   :init
-   (with-eval-after-load 'company
-	(add-hook 'evil-normal-state-entry-hook #'company-cancel))
-;; (use-package lsp-python-ms
-;;   :init (setq 
-;;     ; (lsp-python-ms-auto-install-server t)
-;;     lsp-python-ms-executable (executable-find "mspyls"))
-;;   ; :hook (python-mode . (lambda () (require 'lsp-python-ms) (lsp))))
-;;   :hook (python-mode . lsp))
-   (setq evil-escape-key-sequence "jk"
-	  evil-escape-unordered-key-sequence t)
-   :config
-   (evil-escape-mode))
+;; (use-package evil-escape
+;;   :after (evil company)
+;;   :diminish evil-escape-mode
+;;   :init
+;;     (with-eval-after-load 'company
+;;      (add-hook 'evil-normal-state-entry-hook #'company-cancel))
+;;     (setq evil-escape-key-sequence "jk"
+;;          evil-escape-unordered-key-sequence t)
+;;   :config
+;;   (evil-escape-mode))
 #+END_SRC
 
 ** Ivy
@@ -241,10 +235,6 @@ Evil escape mode
     ("M-j" . ivy-next-line)
     ("M-k" . ivy-previous-line)
     ("M-l" . ivy-alt-done)))
-
-  ;; :general (leader-key
-  ;;   "ij" 'ivy-next-line
-  ;;   "ik" 'ivy-previous-line))
 #+END_SRC
 
 Ivy-rich adds extra columns to a few of the Counsel commands to provide more information about each item.
@@ -259,31 +249,33 @@ Ivy-rich adds extra columns to a few of the Counsel commands to provide more inf
 #+BEGIN_SRC elisp
 (use-package counsel
   :general (leader-key
-  "ff"    '(counsel-find-file :which-key "find file")
-  "f SPC" '(counsel-ag :which-key "Ag")
-  "ik"    '(counsel-yank-pop :which-key "from kill-ring")
-  "bb"    '(counsel-ibuffer :which-key "choose buffer")
-  "fe"    '(counsel-flycheck :which-key "find error"))
+    "ff"    '(counsel-find-file :which-key "find file")
+    "f SPC" '(counsel-ag :which-key "Ag")
+    "ik"    '(counsel-yank-pop :which-key "from kill-ring")
+    "bb"    '(counsel-ibuffer :which-key "choose buffer")
+    "fe"    '(counsel-flycheck :which-key "find error"))
   
   :bind (("M-x" . counsel-M-x)
          ("C-x b" . counsel-ibuffer)
          ("C-x C-f" . counsel-find-file)
          :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history)))
+           ("C-r" . 'counsel-minibuffer-history)))
 #+END_SRC
 
 ** Org mode
 
 #+BEGIN_SRC emacs-lisp
 (use-package org
-  :general (leader-key
-    "o"   '(:ignore t :which-key "org")
-    "oa"  '(org-agenda :which-key "agenda")
-    "ox"  '(org-toggle-checkbox :which-key "[X]")
-    "oe"  '(org-edit-src-code :which-key "Edit SRC")
-    ; Insert
-    "io"  '(:ignore t :which-key "org")
-    "ios" 'org-insert-structure-template))
+	:general (leader-key
+		"o"   '(:ignore t :which-key "org")
+		"oa"  '(org-agenda :which-key "agenda")
+		"ox"  '(org-toggle-checkbox :which-key "[X]")
+		"oe"  '(org-edit-src-code :which-key "Edit SRC")
+		; Insert
+		"io"  '(:ignore t :which-key "org")
+		"ios" 'org-insert-structure-template)
+  :config
+	  (setq org-src-tab-acts-natively nil))
 #+END_SRC
 
 Improved version of org-bullets
@@ -292,8 +284,8 @@ Improved version of org-bullets
 (use-package org-superstar
   :hook (org-mode-hook . org-superstar-mode)
   :config  
-  (setq org-startup-indented t)            ;; Indent according to section
-  (setq org-startup-with-inline-images t)) ;; Display images in-buffer by default
+    (setq org-startup-indented t)            ;; Indent according to section
+    (setq org-startup-with-inline-images t)) ;; Display images in-buffer by default
 #+END_SRC
 
 Evil bindings for org mode
@@ -302,15 +294,15 @@ Evil bindings for org mode
 (use-package evil-org
   :after (evil org)
   :hook
-  (org-mode-hook . evil-org-mode)
-  (evil-org-mode-hook .  (lambda ()
+    (org-mode-hook . evil-org-mode)
+    (evil-org-mode-hook .  (lambda ()
               (evil-org-set-key-theme '(navigation insert textobjects additional calendar))))
   :config
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys)
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys)
 
-  (setq org-agenda-files '("~/org/agenda.org"))
-  (setq org-directory "~/org/"))
+    (setq org-agenda-files '("~/org/agenda.org"))
+    (setq org-directory "~/org/"))
 #+END_SRC
 
 ** Notes	 
@@ -345,30 +337,30 @@ Evil bindings for org mode
 
 #+BEGIN_SRC emacs-lisp
 (setq dotfiles '(
-  ("Emacs"           . "~/.emacs.d/config.org")
-  ("Xmonad"          . "~/.xmonad/xmonad.hs")
-  ("Xmobar"          . "~/.config/xmobar/xmobarrc")
-  ("Awesome"         . "~/.config/awesome/rc.lua")
-  ("Stalonetray"     . "~/.stalonetrayrc")
-  ("Termite"         . "~/.config/termite/config")
-  ("Kitty"           . "~/.config/kitty/kitty.conf")
-  ("Mpd"             . "~/.config/mpd/mpd.conf")
-  ("Ncmpcpp"         . "~/.ncmpcpp/config")
-  ("Nnn"             . "~/.config/nnn/")
-  ("TeX-ntnu"        . "~/texmf/tex/latex/local/ntnu.sty")
-  ("Tmux"            . "~/.tmux.conf")
-  ("Todo"            . "~/.todo")
-  ("Qutebrowser"     . "~/.config/qutebrowser/config.py")
-  ("Vim"             . "~/.config/nvim/init.vim")
-  ("Zsh"             . "~/.zshrc")
-  ("Config-selector" . "~/.scripts/rofi/config-selector")
-  ("Configfiles"     . "~/.scripts/rofi/configfiles")))
+  ("Emacs"           . (concat user-emacs-directory "/config.org"))
+  ("Xmonad"          . "$HOME/.xmonad/xmonad.hs")
+  ("Xmobar"          . "$XDG_CONFIG_HOME/xmobar/xmobarrc")
+  ("Awesome"         . "$XDG_CONFIG_HOME/awesome/rc.lua")
+  ("Stalonetray"     . "$HOME/.stalonetrayrc")
+  ("Termite"         . "$XDG_CONFIG_HOME/termite/config")
+  ("Kitty"           . "$XDG_CONFIG_HOME/kitty/kitty.conf")
+  ("Mpd"             . "$XDG_CONFIG_HOME/mpd/mpd.conf")
+  ("Ncmpcpp"         . "$HOME/.ncmpcpp/config")
+  ("Nnn"             . "$XDG_CONFIG_HOME/nnn/")
+  ("TeX-ntnu"        . "$HOME/texmf/tex/latex/local/ntnu.sty")
+  ("Tmux"            . "$XDG_CONFIG_HOME/tmux/tmux.conf")
+  ("Todo"            . "$HOME/.todo")
+  ("Qutebrowser"     . "$XDG_CONFIG_HOME/qutebrowser/config.py")
+  ("Vim"             . "$XDG_CONFIG_HOME/nvim/init.lua")
+  ("Zsh"             . "$XDG_CONFIG_HOME/zsh/.zshrc")
+  ("Config-selector" . "$HOME/.scripts/rofi/config-selector")
+  ("Configfiles"     . "$HOME/.scripts/rofi/configfiles")))
   
 (defun find-config-file ()
   "Chooses a config-file from dotfiles and opens it in a new buffer"
   (interactive)
   (ivy-read "Config: " dotfiles
-    :action (lambda (confpair) (find-file (cdr confpair)))))
+    :action (lambda (confpair) (find-file (substitute-in-file-name (eval (cdr confpair)))))))
 
 (leader-key "fc" '(find-config-file :which-key "find config file"))
 #+END_SRC
@@ -399,8 +391,33 @@ For every other theme, use load-theme
 
 #+BEGIN_SRC emacs-lisp
 (use-package monokai-theme
-  :config
-  (load-theme 'monokai t))
+	:config
+	(setq monokai-user-variable-pitch t)
+	(progn
+
+		(defvar after-load-theme-hook nil
+			"Hook run after a color theme is loaded using `load-theme'.")
+
+		(defadvice load-theme (after run-after-load-theme-hook activate)
+			"Run `after-load-theme-hook'."
+			(run-hooks 'after-load-theme-hook))
+
+		(defun customize-monokai ()
+			"Customize monokai theme"
+			(if (member 'monokai custom-enabled-themes)
+					(custom-theme-set-faces
+					 'monokai
+					 '(py-object-reference-face ((t (:foreground "#FFA500"))))
+					 '(py-decorators-face ((t (:foreground "#FFA500"))))
+					 '(py-variable-name-face ((t (:foreground "#FFA500"))))
+					 '(py-exception-name-face ((:foreground "#FFA500")))
+					 '(py-class-name-face ((:foreground "#FFA500")))
+					 '(py-pseudo-keyword-face ((:foreground "#FFA500")))
+					 '(py-builtins-face ((:foreground "#FFA500"))))))
+
+		(add-hook 'after-load-theme-hook 'customize-monokai)))
+
+(load-theme 'monokai t)
 #+END_SRC
 
 ** Centaur-tabs
@@ -588,10 +605,10 @@ For every other theme, use load-theme
     ;; Whether display the gnus notifications.
     (setq doom-modeline-gnus t)
     
-    ;; Wheter gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
+    ;; Whether gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
     (setq doom-modeline-gnus-timer 2)
     
-    ;; Wheter groups should be excludede when gnus automatically being updated.
+    ;; Whether groups should be excludede when gnus automatically being updated.
     (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
     
     ;; Whether display the IRC notifications. It requires `circe' or `erc' package.
@@ -665,8 +682,8 @@ In order for this to work, the [[https://github.com/tonsky/FiraCode/issues/211#i
     (setq dashboard-set-file-icons t) 
 
     (setq dashboard-image-banner-max-height (/ (frame-pixel-height) 3))
-    (setq dashboard-startup-banner "~/.emacs.d/logo.svg")
-    ; (setq dashboard-startup-banner "~/.emacs.d/logo.svg")
+    (setq dashboard-startup-banner (concat user-emacs-directory "/logo.svg"))
+    ; (setq dashboard-startup-banner (concat user-emacs-directory "/logo.svg"))
     (setq dashboard-center-content t)
     (setq dashboard-items '((recents  . 10)
                             (projects . 5)
@@ -934,7 +951,9 @@ Nice looking completions
 (use-package projectile
   :init
 	(setq projectile-project-search-path '("~/git/"
-																					"~/git/temp/"))
+																					"~/git/temp/"
+																					"~/git/appkom/"
+																					"~/git/pvv/"))
   (setq projectile-switch-project-action #'projectile-dired)
 
   :custom ((projectile-completion-system 'ivy))
@@ -1088,73 +1107,21 @@ https://emacs.stackexchange.com/questions/10431/get-company-to-show-suggestions-
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(use-package evil-magit
-  :after (magit evil))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
 (use-package git-gutter
   :init
   (global-git-gutter-mode 1))
 #+END_SRC
 
 * Langugages
-** Agda
-
-(after! agda2-mode
-  (set-lookup-handlers! 'agda2-mode
-    :definition #'agda2-goto-definition-keyboard)
-  (map! :map agda2-mode-map
-        :localleader
-        "?"   #'agda2-show-goals
-        "."   #'agda2-goal-and-context-and-inferred
-        ","   #'agda2-goal-and-context
-        "="   #'agda2-show-constraints
-        "SPC" #'agda2-give
-        "a"   #'agda2-auto-maybe-all
-        "b"   #'agda2-previous-goal
-        "c"   #'agda2-make-case
-        "d"   #'agda2-infer-type-maybe-toplevel
-        "e"   #'agda2-show-context
-        "f"   #'agda2-next-goal
-        "gG"  #'agda2-go-back
-        "h"   #'agda2-helper-function-type
-        "l"   #'agda2-load
-        "n"   #'agda2-compute-normalised-maybe-toplevel
-        "p"   #'agda2-module-contents-maybe-toplevel
-        "r"   #'agda2-refine
-        "s"   #'agda2-solveAll
-        "t"   #'agda2-goal-type
-        "w"   #'agda2-why-in-scope-maybe-toplevel
-        (:prefix "x"
-          "c"   #'agda2-compile
-          "d"   #'agda2-remove-annotations
-          "h"   #'agda2-display-implicit-arguments
-          "q"   #'agda2-quit
-          "r"   #'agda2-restart)))
-
 ** C/C++
-** Clojure
-** Coq
 ** Dart / Flutter
 
 #+BEGIN_SRC emacs-lisp
- (use-package dart-mode
-   :mode "\\.dart\\'")
-#+END_SRC
+(use-package dart-mode
+	:mode "\\.dart\\'")
 
-** Elixir
-
-Major mode for elixir
-
-#+BEGIN_SRC emacs-lisp
-; (use-package elixir-mode)
-#+END_SRC
-
-Several tools for navigation, formatting, compilation, docs and completion
-
-#+BEGIN_SRC emacs-lisp
-; (use-package alchemist)
+(use-package lsp-dart
+  :hook 'dart-mode-hook)
 #+END_SRC
 
 ** Elm
@@ -1267,25 +1234,6 @@ It requires the hindent executable
 flycheck-haskell?
 ghc ?
 
-** Idris
-
-#+BEGIN_SRC emacs-lisp
-;; (use-package idris-mode
-;;   :hook (idris-mode-hook . turn-on-idris-simple-indent) 
-;;   :general (leader-key idris-mode-map
-;;     "m." 'idris-pop-to-repl
-;;     "mr" 'idris-load-file
-;;     "md" 'idris-docs-at-point
-;;     "mt" 'idris-type-at-point
-;;     "md" 'idris-add-clause
-;;     "ml" 'idris-make-lemma
-;;     "mc" 'idris-case-split
-;;     "mw" 'idris-make-with-block
-;;     "mm" 'idris-add-missing
-;;     "mp" 'idris-proof-search
-;;     "mh" 'idris-docs-at-point))  
-#+END_SRC
-
 ** Java
 
 Java LSP using the Eclipse JDT Language server
@@ -1395,6 +1343,7 @@ js2-mode
 js-doc
 js2-refactor 
 npm.el
+
 ** Json
 
 #+BEGIN_SRC emacs-lisp
@@ -1699,17 +1648,46 @@ To be installed from the arch community repos: python-language-server
     ("or"     . "∨")
     ("pi"     . "π"))))
 
-(add-hook 'python-mode-hook 'prettify-symbols-mode)
-(add-hook 'python-mode-hook 'prettify-python)
+;; (add-hook 'python-mode-hook 'prettify-symbols-mode)
+;; (add-hook 'python-mode-hook 'prettify-python)
 
 #+END_SRC
 
 ** Rust
-rust-mode 
+
+#+BEGIN_SRC emacs-lisp
+(use-package rustic
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  ;; uncomment for less flashiness
+  ;; (setq lsp-eldoc-hook nil)
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-signature-auto-activate nil)
+
+  ;; comment to disable rustfmt on save
+  (setq rustic-format-on-save t)
+  (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+
+(defun rk/rustic-mode-hook ()
+  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+  ;; save rust buffers that are not file visiting. Once
+  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+  ;; no longer be necessary.
+  (when buffer-file-name
+    (setq-local buffer-save-without-query t)))	
+#+END_SRC
+
 flycheck-rust 
 cargo.el - Cargo support for Emacs.
 
-** Scala
 ** Shellscripts
 ** Yaml
 ** Web-dev
@@ -1995,6 +1973,8 @@ Make a header comment using the [[https://github.com/cacalabs/toilet][toilet]] u
 https://protesilaos.com/
 
 https://writequit.org/denver-emacs/presentations/2017-04-11-ivy.html
+
+https://robert.kra.hn/posts/2021-02-07_rust-with-emacs/
 
 ** Configs
 *** Quinoa42
