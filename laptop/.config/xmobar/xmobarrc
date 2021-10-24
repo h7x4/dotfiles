@@ -44,7 +44,7 @@ Config {
 
     Run Memory ["-t","<usedratio>%"] 10,
     Run Swap ["-t", "<usedratio>%"] 100,
-    Run Date "%a %_d %b %H:%M" "date" 10,
+    Run Date "%a %_d %b - %H:%M - W%W" "date" 10,
 		Run Com "/home/h7x4/.config/xmobar/scripts/mpd_status.sh" [] "mpc" 10,
 		-- Run Com "/home/h7x4/.config/xmobar/scripts/wireless.sh" [] "wi" 100,
 		Run Com "/home/h7x4/.config/xmobar/scripts/volume.py" [] "vol" 10,

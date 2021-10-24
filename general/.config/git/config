@@ -2,29 +2,9 @@
   name = h7x4
   email = h7x4abk3g@protonmail.com
 
-[init]
-  defaultBranch = main
-
-[alias]
-  aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
-  uncommit = "reset --soft HEAD^"
-  rev = "checkout HEAD -- "
-  revall = "checkout ."
-  unadd = "rm --cached "
-  delete-merged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-
-  mkbr = "checkout -b"
-  mvbr = "branch -m"
-  rmbr = "branch -d"
-  rrmbr = "push origin --delete"
-
-  graph = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
-  graphv = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
-  g = !"git graph"
-
 [core]
-  excludesfile = ~/.gitignore
-  attributesfile = ~/.gitattributes
+  excludesfile = ~/.config/git/ignore
+  attributesfile = ~/.config/git/attributes
 
   # Treat spaces before tabs and all kinds of trailing whitespace as an error.
   # [default] trailing-space: looks for spaces at the end of a line
@@ -37,29 +17,60 @@
   editor = nvim
   pager = less
 
+[alias]
+  aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
+  uncommit = "reset --soft HEAD^"
+  rev = "checkout HEAD -- "
+  revall = "checkout ."
+  ; unstage = "rm --cached "
+  unstage = "restore --staged "
+  delete-merged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+  mkbr = "checkout -b"
+  mvbr = "branch -m"
+  rmbr = "branch -d"
+  rrmbr = "push origin --delete"
+
+  graph = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+  graphv = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+  g = !"git graph"
+
+# Colors
+
+[color "branch"]
+  upstream = cyan
+
 [color]
   ui = auto
 
-[github]
-  user = h7x4abk3g
+# Commands
 
-[filter "lfs"]
-  required = true
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-  clean = git-lfs clean -- %f
+[init]
+  defaultBranch = main
+
+[fetch]
+	prune = true
+
+[pull]
+	rebase = true
+
+[push]
+  default = current
+
+[merge]
+  tool = nvimdiff
+  conflictstyle = diff3
+  colorMoved = zebra
+
+[mergetool]
+  keepBackup = false 
+[mergetool "nvimdiff"]
+  cmd = "nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'"
 
 [diff]
   mnemonicPrefix = true
   renames=true
   tool = nvimdiff
-[merge]
-  tool = nvimdiff
-  conflictstyle = diff3
-[mergetool]
-  keepBackup = false 
-[mergetool "nvimdiff"]
-  cmd = "nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'"
 
 [grep]
   break = true
@@ -67,7 +78,14 @@
   lineNumber = true
   extendedRegexp = true
 
-# URL Stuff
+[instaweb]
+  local = true
+  port = 9876
+
+# Upstream
+
+[github]
+  user = h7x4abk3g
 
 [url "git@github.com:"]
   insteadOf = "gh:"
@@ -95,6 +113,12 @@
   pushInsteadOf = "ntnu:"
   pushInsteadOf = "git://gitlab.stud.idi.ntnu.no/"
 
-# Colors
-[color "branch"]
-  upstream = cyan
+# Misc
+[web]
+  browser = google-chrome-stable
+
+[filter "lfs"]
+  required = true
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  clean = git-lfs clean -- %f

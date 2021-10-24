@@ -128,37 +128,55 @@ draw_bold_text_with_bright_colors: false
 colors:
   # Default colours
   primary:
+
+    # MONOKAI
     background: '0x272822'
     foreground: '0xf8f8f2'
 
+    # PAPER
+    # background: '0xf2e3bd'
+    # foreground: '0x2f343f'
+
   # Colors that should be used to draw the terminal cursor. If these are unset,
   # the cursor colour will be the inverse of the cell colour.
+
   # cursor:
   #   text: '0x2e2e2d'
-  #   # text: '0x000000'
-  #   cursor: '0xffffff'
+  #   text: '0x000000'
+  #   cursor: '#20fccf'
 
   # Normal colors
   normal:
-    black:   '0x272822'
-    red:     '0xf92672'
-    green:   '0xa6e22e'
-    yellow:  '0xf4bf75'
-    blue:    '0x66d9ef'
-    magenta: '0xae81ff'
-    cyan:    '0xa1efe4'
-    white:   '0xf8f8f2'
+    # MONOKAI
+    black:   '#272822'
+    red:     '#f92672'
+    green:   '#a6e22e'
+    yellow:  '#f4bf75'
+    blue:    '#66d9ef'
+    magenta: '#ae81ff'
+    cyan:    '#a1efe4'
+    white:   '#f8f8f2'
+
+    # PAPER
+    # black:   '#222222'
+    # red:     '#C30771'
+    # green:   '#10A778'
+    # yellow:  '#A89C14'
+    # blue:    '#008ec4'
+    # magenta: '#523C79'
+    # cyan:    '#20A5BA'
+    # white:   '#f7f3ee'
 
   # Bright colors
-  bright:
-    black:   '0x75715e'
-    red:     '0xf92672'
-    green:   '0xa6e22e'
-    yellow:  '0xf4bf75'
-    blue:    '0x66d9ef'
-    magenta: '0xae81ff'
-    cyan:    '0xa1efe4'
-    white:   '0xf8f8f5'
+  # bright:
+  #   black:   '#303030'
+  #   red:     '#E32791'
+  #   green:   '#5FD7A7'
+  #   yellow:  '#F3E430'
+  #   blue:    '#B6D6FD'
+  #   magenta: '#6855DE'
+  #   cyan:    '#4FB8CC'
+  #   white:   '#f7f3ee'
 
   # Dim colors (Optional)
   # dim:
@@ -211,7 +229,7 @@ colors:
   # indexed_colors: []
 
 # Visual Bell
-#
+
 # Any time the BEL code is received, Alacritty "rings" the visual bell. Once
 # rung, the terminal background will be set to white and transition back to the
 # default background color. You can control the rate of this transition by
@@ -463,6 +481,7 @@ cursor:
   #   - _ Underline
   #   - | Beam
   style: Block
+  blinking: On
 
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.

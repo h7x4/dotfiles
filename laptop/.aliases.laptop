@@ -4,10 +4,12 @@
 # alias disable-touch="xinput set-prop 16 'Device Enabled' 0"
 # alias enable-touch ="xinput set-prop 16 'Device Enabled' 1"
 
-alias turnOffScreenHDMI="xrandr --output DP-3 --off"
-alias doubleScreenHDMI="xrandr --output DP-3 --mode 1920x1080"
-alias extendScreenHDMI="xrandr --output DP-3 --mode 1920x1080 --right-of eDP-1"
+alias updateWallpaper="feh --bg-fill $HOME/Dropbox/bilder/Wallpapers/pixiv/80242900_p0.jpg"
 
-alias turnOffScreenUSBC="xrandr --output DP-1 --off"
-alias doubleScreenUSBC="xrandr --output DP-1 --mode 1920x1080"
-alias extendScreenUSBC="xrandr --output DP-1 --mode 1920x1080 --right-of eDP-1"
+alias turnOffScreenHDMI="xrandr --output DP-3 --off && updateWallpaper"
+alias doubleScreenHDMI="xrandr --output DP-3 --mode 1920x1080 && updateWallpaper"
+alias extendScreenHDMI="xrandr --output DP-3 --mode 1920x1080 --right-of eDP-1 && updateWallpaper"
+
+alias turnOffScreenUSBC="xrandr --output DP-1 --off && updateWallpaper"
+alias doubleScreenUSBC="xrandr --output DP-1 --mode 1920x1080 && updateWallpaper"
+alias extendScreenUSBC="xrandr --output DP-1 --mode 1920x1080 --right-of eDP-1 && updateWallpaper"

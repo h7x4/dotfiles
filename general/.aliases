@@ -3,14 +3,16 @@
 # When using zsh, see also
 # $HOME/.oh-my-zsh/lib
 
-export SCREENSHOT_DIR='$HOME/pictures/screenshots'
+export SCREENSHOT_DIR="$HOME/pictures/screenshots"
 
 # ░█▀▀░█░█░▀█▀░░░█▀▀░█▀█░█▀▀░▀█▀░█░█░█▀█░█▀▄░█▀▀
 # ░█▀▀░▄▀▄░░█░░░░▀▀█░█░█░█▀▀░░█░░█▄█░█▀█░█▀▄░█▀▀
 # ░▀▀▀░▀░▀░░▀░░░░▀▀▀░▀▀▀░▀░░░░▀░░▀░▀░▀░▀░▀░▀░▀▀▀
 
+# Music player
 alias m="ncmpcpp"
 
+# Text editor
 if command -v nvim &> /dev/null; then
   alias vim="nvim"
   alias vi="nvim"
@@ -23,17 +25,22 @@ elif command -v vi &> /dev/null; then
 else
   echo -e "\033[31m[ERROR] No vim program found on the system! Couldn't bind aliases!\033[0m"
 fi
+
+alias openfile='$HOME/.scripts/rofi/config-selector.py | xargs nvim'
  
+# IPython
 if command -v ipython &> /dev/null; then
   alias p="ipython"
 fi
  
+# YouTube-dl
 if command -v youtube-dl &> /dev/null; then
   alias youtube-dl-list='youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio" -o "%(playlist_index)s-%(title)s.%(ext)s"'
   alias music-dl='youtube-dl --extract-audio -f "bestaudio[ext=m4a]/best"'
   alias music-dl-list='youtube-dl --extract-audio -f "bestaudio[ext=m4a]/best" -o "%(playlist_index)s-%(title)s.%(ext)s"'
 fi
 
+# Screenshots
 if command -v maim &> /dev/null; then
   alias skusho='maim --hidecursor --nokeyboard $(echo $SCREENSHOT_DIR)/$(date +%s).png'
 
@@ -42,37 +49,108 @@ if command -v maim &> /dev/null; then
   fi
 fi
 
-if command -v rsync &> /dev/null; then
-  alias ccp='/usr/bin/cp'
-  alias cp='rsync --progress --human-readable'
-  alias cpr='rsync --progress --human-readable --recursive'
-fi
-
-if command -v bat &> /dev/null; then
-  alias ccat='/usr/bin/cat'
-  alias cat='bat'
-fi
-
+# Scan listening ports
 if command -v netstat &> /dev/null; then
   alias ports='sudo netstat -tulpn | grep LISTEN'
 fi
 
+# Latex Make
 if command -v latexmk &> /dev/null; then
   alias view-latex='latexmk -pdf -pvc main.tex'
 fi
 
-# alias tangle-doom-emacs='cd $HOME/.doom.d && $HOME/.emacs.d/bin/org-tangle config.org && cd -'
+# Tmux reload
+if command -v tmux &> /dev/null; then
+  alias reload-tmux='tmux source $HOME/.config/tmux/tmux.conf'
+fi
 
+# Ag replacement
+if command -v rg &> /dev/null; then
+  alias ag='rg'
+fi
+
+# Xmonad recompilation
 if command -v xmonad &> /dev/null; then
   alias xr='xmonad --recompile'
-
   alias xmr='paru -S xmobar-git --noconfirm'
   alias xxmr='xr; xmr'
 fi
 
 if [[ -f $HOME/.scripts/dropbox.py ]]; then
   alias dp="python $HOME/.scripts/dropbox.py"
-  alias openfile='$HOME/.scripts/rofi/config-selector.py | xargs nvim'
+fi
+
+# ------------------------ System tools ------------------------ #
+
+# cp
+if command -v z &> /dev/null; then
+  alias cd='z'
+fi
+
+# cp
+if command -v rsync &> /dev/null; then
+  alias ccp='/usr/bin/cp'
+  alias cp='rsync --progress --human-readable'
+  alias cpr='rsync --progress --human-readable --recursive'
+fi
+
+# cat
+if command -v bat &> /dev/null; then
+  alias ccat='/usr/bin/cat'
+  # TODO: use mdcat if the file is a markdown file
+  alias cat='bat'
+fi
+
+# htop
+if command -v bottom &> /dev/null; then
+  alias htop='bottom'
+fi
+
+# ps
+if command -v procs &> /dev/null; then
+  alias ps='procs'
+fi
+
+# find
+if command -v fd &> /dev/null; then
+  # At the current time, fd does not support the -m flag, which I have
+  # experienced that some software rely on. Therefore, it's gonna be aliased
+  # to fin
+  alias fin='fd'
+fi
+
+# xxd
+if command -v hex &> /dev/null; then
+  alias xxd='hex'
+fi
+
+# uniq
+if command -v runiq &> /dev/null; then
+  alias uniq='runiq'
+fi
+
+# cut
+if command -v hck &> /dev/null; then
+  alias cut='hck'
+fi
+
+# ------------------------ Reminders ------------------------ #
+
+# compression decompression
+if command -v ouch &> /dev/null; then
+  alias zip='echo "Consider using ouch instead\n"; zip'
+  alias unzip='echo "Consider using ouch instead\n"; unzip'
+  alias tar='echo "Consider using ouch instead\n"; tar'
+fi
+
+# Make tool
+if command -v just &> /dev/null; then
+  alias make='echo "Consider using just instead\n"; make'
+fi
+
+# Disk usage viewer
+if command -v diskonaut &> /dev/null; then
+  alias ncdu='echo "Consider using diskonaut instead\n"; ncdu'
 fi
 
 # ░█▀▀░█▀█░█░░░█▀█░█▀▄

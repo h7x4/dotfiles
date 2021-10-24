@@ -48,10 +48,10 @@ XF86MonBrightnessDown
   light -U 5
 
 @Print
-	skushoclip
+  maim --hidecursor --nokeyboard --select | xclip -selection clipboard -target image/png -in
 
 shift + @Print
-	skusho
+	maim --hidecursor --nokeyboard $SCREENSHOT_DIR/$(date +%s).png
 
 super + @Print
   boomer
