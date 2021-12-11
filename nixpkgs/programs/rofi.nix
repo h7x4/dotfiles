@@ -2,7 +2,7 @@
 {
   programs.rofi = {
     enable = true;
-  
+
     # plugins = with pkgs; [
     #   rofi-emoji
     #   rofi-mpd
@@ -12,15 +12,15 @@
     #   rofi-power-menu
     #   rofi-file-browser
     # ];
-  
+
     font = "Droid Sans 12";
-    theme = ../../rofi/themes/blank.rasi;
-  
+    theme = ../../general/.config/rofi/themes/blank.rasi;
+
     extraConfig = {
-      modi = "window,run,drun,ssh,windowcd,file-browser";
+      modi = "window,run,drun,ssh,windowcd";
       show-icons = true;
       drun-display-format = "{name}";
-      fullscreen = false;
+      # fullscreen = false;
       threads = 0;
       matching = "fuzzy";
       scroll-method = 0;

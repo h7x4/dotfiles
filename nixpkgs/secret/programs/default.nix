@@ -1,0 +1,8 @@
+{ ... }:
+{
+  imports = [
+    ./chromium
+    ./newsboat
+    ./qutebrowser
+  ];
+}

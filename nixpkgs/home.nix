@@ -9,6 +9,8 @@ in
   _module.args.colorTheme = colorTheme;
 
   imports = [
+    ./misc/mimetypes.nix
+
     ./programs/alacritty.nix
     ./programs/comma.nix
     ./programs/emacs.nix
@@ -17,11 +19,20 @@ in
     ./programs/ncmpcpp.nix
     ./programs/neovim.nix
     ./programs/newsboat.nix
+    ./programs/qutebrowser.nix
     ./programs/rofi.nix
     ./programs/tmux.nix
     ./programs/vscode.nix
     ./programs/zathura.nix
     ./programs/zsh.nix
+
+    ./services/dunst.nix
+    ./services/mpd.nix
+    ./services/picom.nix
+    ./services/stalonetray.nix
+    ./services/sxhkd.nix
+
+    ./secret/ssh/hosts
   ];
 
   xsession = {
@@ -33,14 +44,11 @@ in
   };
 
   programs = {
-    home-manager.enable = true; 
+    home-manager.enable = true;
 
     bat.enable = true;
-
-    # bottom.enable = true;
-
+    bottom.enable = true;
     exa.enable = true;
-
     feh.enable = true;
 
     fzf = {
@@ -52,6 +60,7 @@ in
     irssi.enable = true;
     lazygit.enable = true;
     mpv.enable = true;
+    ssh.enable = true;
 
     man = {
       enable = true;
@@ -60,19 +69,9 @@ in
 
     obs-studio.enable = true;
 
-    qutebrowser = {
-      enable = true;
-      aliases = {};
-      searchEngines = {};
-      settings = {};
-      keyBindings = {};
-      # quickmarks = {};
-      extraConfig = '''';
-    };
-
     skim = {
       enable = true;
-      defaultCommand ="fd --type f"; 
+      defaultCommand ="fd --type f";
     };
 
     texlive = {
@@ -85,12 +84,6 @@ in
     zoxide.enable = true;
   };
 
-  services.mpd         = import ./services/mpd.nix args;
-  services.picom       = import ./services/picom.nix;
-  services.stalonetray = import ./services/stalonetray.nix (args // { inherit colorTheme; });
-  services.sxhkd       = import ./services/sxhkd.nix args;
-
-
   home = {
     stateVersion = "21.05";
     username = "h7x4";
@@ -101,11 +94,14 @@ in
       asciidoctor
       audacity
       beets
+      biber
       calibre
       castnow
       citra
+      cool-retro-term
       copyq
       czkawka
+      darktable
       desmume
       discord
       diskonaut
@@ -116,8 +112,10 @@ in
       fd
       ffmpeg
       geogebra
+      gnome.gnome-font-viewer
       google-chrome
       # gpgtui
+      graphviz
       # hck
       hexyl
       imagemagick
@@ -132,6 +130,7 @@ in
       lastpass-cli
       lazydocker
       libreoffice-fresh
+      light
       lolcat
       maim
       mdcat
@@ -197,34 +196,12 @@ in
     ];
   };
 
-  services.gnome-keyring.enable = true;
-
-  services.dropbox.enable = true;
-  services.dunst = {
-    enable = true;
-    iconTheme = {
-      package = pkgs.gnome.adwaita-icon-theme;
-      name = "Adwaita";
-      size = "32x32";
-    };
-    settings = {
-      global = {
-        geometry = "300x5-30+50";
-        transparency = 10;
-        frame_color = "#eceff1";
-        font = "Droid Sans 9";
-      };
-      urgency_normal = {
-        background = "#37474f";
-        foreground = "#eceff1";
-        timeout = 10;
-      };
-    };
+  services = {
+    gnome-keyring.enable = true;
+    dropbox.enable = true;
+    network-manager-applet.enable = true;
+    # redshift.enable = true;
   };
-
-  services.network-manager-applet.enable = true;
-
-  # services.redshift.enable = true;
 
 }
 

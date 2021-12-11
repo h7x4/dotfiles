@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 
-let mapPrefixToSet = prefix: set: 
+let mapPrefixToSet = prefix: set:
     with lib; attrsets.mapAttrs' (k: v: attrsets.nameValuePair ("${prefix}.${k}") v) set;
 
     vs-liveshare = pkgs.callPackage ./vscode-extensions/vsliveshare.nix {};
@@ -13,7 +13,7 @@ in
     # package = pkgs.vscodium;
     # package = pkgs.vscode-fhsWithPackages (ps: with ps; [rustup zlib]);
     # package = pkgs.vscode-fhs;
-   
+
     userSettings = let
       editor = mapPrefixToSet "editor" {
         fontFamily = "Fira Code";
@@ -36,14 +36,14 @@ in
         wordWrap = "off";
         # "bracketPairColorization.enabled" = true;
       };
-  
+
       zen = mapPrefixToSet "zenMode" {
         centerLayout = true;
         hideStatusBar = false;
         hideLineNumbers = false;
         hideTabs = false;
       };
-  
+
       vim = mapPrefixToSet "vim" {
         useSystemClipboard = true;
         "statusBarColorControl" = true;
@@ -61,7 +61,7 @@ in
           "<A-o>" = true;
         };
       };
-  
+
       workbench = mapPrefixToSet "workbench" {
         "settings.enableNaturalLanguageSearch" = false;
         enableExperiments = false;
@@ -80,7 +80,7 @@ in
           "*.ipynb" = "jupyter.notebook.ipynb";
         };
       };
-  
+
       python = mapPrefixToSet "python" {
         "analysis.completeFunctionParens" = true;
         "formatting.provider" = "yapf";
@@ -90,28 +90,28 @@ in
         "autoComplete.addBrackets" = true;
         languageServer = "Pylance";
       };
-  
+
       java = mapPrefixToSet "java" {
         "configuration.checkProjectSettingsExclusions" = false;
         "test.report.showAfterExecution" = "always";
         "test.report.position" = "currentView";
         "refactor.renameFromFileExplorer" = "preview";
       };
-  
+
       sync = mapPrefixToSet "sync" {
         autoUpload = true;
         autoDownload = true;
         quietSync = true;
         gist = "86e19852a95d31a278ad1a516b40556b";
       };
-  
+
       svg = mapPrefixToSet "svgviewer" {
         transparencygrid = true;
         enableautopreview = true;
         previewcolumn = "Beside";
         showzoominout = true;
       };
-      
+
       indentRainbow = mapPrefixToSet "indentRainbow" {
         errorColor = "rgb(255, 0, 0)";
         colors = [ # http://colrd.com/palette/38436/
@@ -136,7 +136,7 @@ in
           "java"
         ];
       };
-  
+
     in
     editor //
     indentRainbow //
@@ -159,7 +159,7 @@ in
       "terminal.integrated.fontSize" = 14;
       "vsintellicode.modify.editor.suggestSelection" = "automaticallyOverrodeDefaultValue";
       "window.zoomLevel" = 2;
-  
+
       # This setting does not support language overrides
       "files.exclude" = {
         # Java
@@ -168,9 +168,9 @@ in
         "**/.settings" = true;
         "**/.factorypath" = true;
       };
-   
+
       # Extensions
-    
+
       "bracket-pair-colorizer-2.colorMode" = "Consecutive";
       "bracket-pair-colorizer-2.forceIterationColorCycle" = true;
       "bracket-pair-colorizer-2.colors" = [
@@ -182,119 +182,119 @@ in
         "#ff0030"
       ];
       "docker.showStartPage" = false;
-  
+
       "errorLens.errorColor" = "rgba(240,0,0,0.1)";
       "errorLens.warningColor" = "rgba(180,180,0,0.1)";
-  
+
       "jupyter.askForKernelRestart" = false;
-  
+
       "keyboard-quickfix.showActionNotification" = false;
-  
+
       "latex-workshop.latex.autoBuild.run" = "onFileChange";
       "latex-workshop.view.pdf.viewer" = "tab";
-  
+
       "liveshare.presence" = true;
       "liveshare.showInStatusBar" = "whileCollaborating";
-  
+
       "liveServer.settings.port" = 5500;
-  
+
       "material-icon-theme.folders.associations" = {
         ui = "layout";
         bloc = "controller";
       };
-  
+
       "redhat.telemetry.enabled" = false;
-  
+
       "sonarlint.rules" = {
         "java:S3358" = {
           "level" = "off";
         };
       };
-  
+
       # Language overrides
-  
+
       "dart.previewFlutterUiGuides" = true;
       "dart.previewFlutterUiGuidesCustomTracking" = true;
       "dart.previewLsp" = true;
-  
+
       "[dart]" = {
         "editor.defaultFormatter" = "Dart-Code.dart-code";
       };
-  
+
       "[html]" = {
         "editor.formatOnSave" = false;
         "editor.defaultFormatter" = "lonefy.vscode-JS-CSS-HTML-formatter";
       };
-  
+
       "[javascript]" = {
         "editor.formatOnSave" = false;
         "editor.defaultFormatter" = "vscode.typescript-language-features";
       };
-  
+
       "[json]" = {
         "editor.formatOnSave" = true;
       };
-  
+
       "[jsonc]" = {
         "editor.defaultFormatter" = "vscode.json-language-features";
       };
     };
-  
+
     keybindings = [
       {
         key = "ctrl+[Period]";
         command = "keyboard-quickfix.openQuickFix";
         when = "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly";
       }
-  
+
       {
         key = "alt+k";
         command = "selectPrevSuggestion";
         when = "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus";
       }
-  
+
       {
         key = "alt+j";
         command = "selectNextSuggestion";
         when = "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus";
       }
-  
+
       {
         key = "alt+k";
         command = "editor.action.moveLinesUpAction";
         when = "editorTextFocus && !editorReadonly && !suggestWidgetVisible";
       }
-  
+
       {
         key = "alt+j";
         command = "editor.action.moveLinesDownAction";
         when = "editorTextFocus && !editorReadonly && !suggestWidgetVisible";
       }
-  
+
       {
         key = "alt+j";
         command = "workbench.action.quickOpenNavigateNext";
         when = "inQuickOpen";
       }
-  
+
       {
         key = "alt+k";
         command = "workbench.action.quickOpenNavigatePrevious";
         when = "inQuickOpen";
       }
-  
+
       {
         key = "alt+f";
         command = "editor.action.formatDocument";
         when = "editorTextFocus && !editorReadonly";
       }
-  
+
       {
         key = "alt+o";
         command = "editor.action.insertLineAfter";
         when = "textInputFocus && !editorReadonly";
       }
-  
+
       {
         key = "alt+shift+o";
         command = "editor.action.insertLineBefore";
@@ -307,7 +307,7 @@ in
       # ms-vsliveshare.vsliveshare
       redhat.java
       wholroyd.jinja
-      bbenoist.Nix
+      bbenoist.nix
       # jock.svg
       vscodevim.vim
       haskell.haskell

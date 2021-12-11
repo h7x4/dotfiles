@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 let
   defaultBrowser = "google-chrome-stable %u";
   videoViewer = "mpv %u";
@@ -8,12 +8,12 @@ in {
     autoReload = true;
     maxItems = 50;
     browser = defaultBrowser;
-    extraConfig = builtins.concatStringsSep "\n" [
+    extraConfig = lib.strings.concatStringsSep "\n" [
       ''
         macro m set browser "${videoViewer}"; open-in-browser ; set browser "${defaultBrowser}"
         macro l set browser "${defaultBrowser}"; open-in-browser ; set browser "${defaultBrowser}"
       ''
-  
+
       # Unbind keys
       ''
         unbind-key ENTER
@@ -22,7 +22,7 @@ in {
         unbind-key J
         unbind-key K
       ''
-  
+
       # Bind keys - vim style
       ''
         bind-key j down
@@ -30,7 +30,7 @@ in {
         bind-key l open
         bind-key h quit
       ''
-  
+
       # Theme
       ''
         color background         default   default
@@ -41,7 +41,7 @@ in {
         color info               default   black
         color article            default   default
       ''
-  
+
       # Highlights
       ''
         highlight all "---.*---" yellow

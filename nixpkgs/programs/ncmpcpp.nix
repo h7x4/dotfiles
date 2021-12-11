@@ -3,59 +3,59 @@
   programs.ncmpcpp = {
     enable = true;
     package = pkgs.ncmpcpp.override { visualizerSupport = true; };
-  
+
     bindings = [
       # { key = "j"; command = "scroll_down"; }
       { key = "mouse"; command = "mouse_event"; }
-  
+
       { key = "up"; command = "scroll_up"; }
       { key = "shift-up"; command = ["select_item" "scroll_up"]; }
-  
+
       { key = "down"; command = "scroll_down"; }
       { key = "shift-down"; command = ["select_item" "scroll_down"]; }
-  
+
       { key = "["; command = "scroll_up_album"; }
       { key = "]"; command = "scroll_down_album"; }
       { key = "{"; command = "scroll_up_artist"; }
       { key = "}"; command = "scroll_down_artist"; }
-  
+
       { key = "page_up"; command = "page_up"; }
       { key = "page_down"; command = "page_down"; }
-  
+
       { key = "home"; command = "move_home"; }
       { key = "end"; command = "move_end"; }
       { key = "insert"; command = "select_item"; }
-  
+
       { key = "enter"; command = "enter_directory"; }
       { key = "enter"; command = "toggle_output"; }
       { key = "enter"; command = "run_action"; }
       { key = "enter"; command = "play_item"; }
-  
+
       { key = "space"; command = "add_item_to_playlist"; }
       { key = "space"; command = "toggle_lyrics_update_on_song_change"; }
       { key = "space"; command = "toggle_visualization_type"; }
-  
+
       #CHANGE
       { key = "d"; command = "delete_playlist_items"; }
-  
+
       { key = "delete"; command = "delete_browser_items"; }
       { key = "delete"; command = "delete_stored_playlist"; }
-  
+
       { key = "right"; command = "next_column"; }
       { key = "right"; command = "slave_screen"; }
       { key = "right"; command = "volume_up"; }
       { key = "+"; command = "volume_up"; }
-  
+
       { key = "left"; command = "previous_column"; }
       { key = "left"; command = "master_screen"; }
       { key = "left"; command = "volume_down"; }
       { key = "-"; command = "volume_down"; }
-  
+
       { key = ":"; command = "execute_command"; }
       { key = "tab"; command = "next_screen"; }
       { key = "shift-tab"; command = "previous_screen"; }
       { key = "f1"; command = "show_help"; }
-  
+
       { key = "1"; command = "show_playlist"; }
       { key = "2"; command = "show_browser"; }
       { key = "2"; command = "change_browse_mode"; }
@@ -69,20 +69,20 @@
       { key = "8"; command = "show_visualizer"; }
       { key = "="; command = "show_clock"; }
       { key = "@"; command = "show_server_info"; }
-  
+
       { key = "s"; command = "stop"; }
       { key = "p"; command = "pause"; }
       { key = ">"; command = "next"; }
       { key = "<"; command = "previous"; }
-  
+
       { key = "ctrl-h"; command = "jump_to_parent_directory"; }
       { key = "ctrl-h"; command = "replay_song"; }
       { key = "backspace"; command = "jump_to_parent_directory"; }
       { key = "backspace"; command = "replay_song"; }
-  
+
       { key = "f"; command = "seek_forward"; }
       { key = "b"; command = "seek_backward"; }
-  
+
       { key = "r"; command = "toggle_repeat"; }
       { key = "z"; command = "toggle_random"; }
       { key = "y"; command = "save_tag_changes"; }
@@ -154,41 +154,41 @@
       { key = "`"; command = "add_random_items"; }
       { key = "ctrl-p"; command = "set_selected_items_priority"; }
       { key = "q"; command = "quit"; }
-  
+
       # the t key isn't used and it's easier to press than /, so lets use it
-      { key = "t"; command = "find"; }	
+      { key = "t"; command = "find"; }
       { key = "t"; command = "find_item_forward"; }
-  
-      { key = "+"; command = "show_clock"; }	
+
+      { key = "+"; command = "show_clock"; }
       { key = "="; command = "volume_up"; }
-  
-      { key = "j"; command = "scroll_down"; }	
+
+      { key = "j"; command = "scroll_down"; }
       { key = "k"; command = "scroll_up"; }
-  
-      { key = "ctrl-u"; command = "page_up"; }	 
+
+      { key = "ctrl-u"; command = "page_up"; }
       #push_characters "kkkkkkkkkkkkkkk"
-      { key = "ctrl-d"; command = "page_down"; }	
+      { key = "ctrl-d"; command = "page_down"; }
       #push_characters "jjjjjjjjjjjjjjj"
-  
-      { key = "h"; command = "previous_column"; }	 
+
+      { key = "h"; command = "previous_column"; }
       { key = "l"; command = "next_column"; }
-  
+
       { key = "."; command = "show_lyrics"; }
-  
-      { key = "n"; command = "next_found_item"; }	 
+
+      { key = "n"; command = "next_found_item"; }
       { key = "N"; command = "previous_found_item"; }
-  
+
       # not used but bound
-      { key = "J"; command = "move_sort_order_down"; }	 
+      { key = "J"; command = "move_sort_order_down"; }
       { key = "K"; command = "move_sort_order_up"; }
     ];
-  
+
     settings = {
       lyrics_directory = "~/music/.lyrics";
-       
+
       playlist_disable_highlight_delay = 0;
       message_delay_time = 5;
-      
+
       # - 0 - default window color (discards all other colors)
       # - 1 - black
       # - 2 - red
@@ -203,7 +203,7 @@
       # - u - underline text
       # - r - reverse colors
       # - a - use alternative character set
-      
+
       song_list_format = "{%a - }{%t}|{$8%f$9}$R{$3(%l)$9}";
       song_status_format = "{{%a{ \"%b\"{ (%y)}} - }{%t}}|{%f}";
       song_library_format = "{%n - }{%t}|{%f}";
@@ -219,23 +219,23 @@
       selected_item_prefix = "$6";
       selected_item_suffix = "$9";
       modified_item_prefix = "$3> $9";
-      
+
       song_window_title_format = "{%a - }{%t}|{%f}";
-      
+
       browser_sort_mode = "name";
       browser_sort_format = "{%a - }{%t}|{%f} {(%l)}";
-      
+
       song_columns_list_format = "(10)[green]{a} (50)[white]{t|f:Title} (20)[cyan]{b} (7f)[magenta]{l}";
       # song_columns_list_format = "(10)[green]{a} (50)[black]{t|f:Title} (20)[cyan]{b} (7f)[magenta]{l}";
-      
+
       execute_on_song_change = "";
-      
+
       execute_on_player_state_change = "";
       playlist_show_mpd_host = "no";
       playlist_show_remaining_time = "no";
       playlist_shorten_total_times = "no";
       playlist_separate_albums = "no";
-      
+
       playlist_display_mode = "columns";
       browser_display_mode = "classic";
       search_engine_display_mode = "classic";
@@ -247,11 +247,11 @@
       volume_change_step = 2;
       autocenter_mode = "no";
       centered_cursor = "no";
-      
+
       progressbar_look = "─⊙╶";
       # progressbar_look = "◾◾◽";
       # progressbar_look = "=> ";
-      
+
       default_place_to_search_in = "database";
       user_interface = "classic";
       data_fetching_delay = "yes";
@@ -265,23 +265,23 @@
       header_text_scrolling = "yes";
       cyclic_scrolling = "no";
       lines_scrolled = 2;
-  
+
       # lyrics_fetchers = "azlyrics, genius, sing365, lyricsmania, metrolyrics, justsomelyrics, jahlyrics, plyrics, tekstowo, internet";
       follow_now_playing_lyrics = "no";
       fetch_lyrics_for_current_song_in_background = "no";
       store_lyrics_in_song_dir = "no";
       generate_win32_compatible_filenames = "yes";
       allow_for_physical_item_deletion = "no";
-      
+
       lastfm_preferred_language = "en";
       space_add_mode = "add_remove";
       show_hidden_files_in_local_browser = "no";
-      
+
       screen_switcher_mode = "playlist, browser";
       startup_screen = "playlist";
       startup_slave_screen = "";
       startup_slave_screen_focus = "no";
-      
+
       locked_screen_width_part = "50";
       ask_for_locked_screen_width_part = "yes";
       jump_to_now_playing_song_at_start = "yes";
@@ -290,9 +290,9 @@
       display_volume_level = "yes";
       display_bitrate = "yes";
       display_remaining_time = "no";
-      
+
       ignore_leading_the = "no";
-      
+
       ignore_diacritics = "no";
       block_search_constraints_change_if_items_found = "yes";
       mouse_support = "yes";
@@ -302,11 +302,11 @@
       tag_editor_extended_numeration = "no";
       media_library_sort_by_mtime = "no";
       enable_window_title = "no";
-      
+
       search_engine_default_search_mode = 1;
       external_editor = "vim";
       use_console_editor = "yes";
-      
+
       colors_enabled = "yes";
       empty_tag_color = "cyan";
       header_window_color = "cyan";
@@ -326,7 +326,7 @@
       alternative_ui_separator_color = "black:b";
       window_border_color = "green";
       active_window_border = "red";
-      
+
       # visualizer_fifo_path = "/tmp/mpd.fifo";
       # visualizer_output_name = "my_fifo";
       # visualizer_sync_interval = "30";
