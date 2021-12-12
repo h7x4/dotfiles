@@ -33,5 +33,6 @@
 .newsboat
 !.newsboat/config
 
-.xmonad/*.hi
-.xmonad/*.o
+.xmonad/
+!/xmonad/xmonad.hs
+!/xmonad/setup-script

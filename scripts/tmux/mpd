@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 isPlaying() {
 if mpc status | grep playing >/dev/null
