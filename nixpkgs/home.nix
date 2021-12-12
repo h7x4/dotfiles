@@ -1,4 +1,4 @@
-{ lib, pkgs, ... } @ args:
+{ pkgs ? import <nixpkgs> {}, lib ? pkgs.lib, ... } @ args:
 
 let
   colorType = with lib.types; (attrsOf str);
@@ -6,9 +6,14 @@ let
   colorTheme = import ./common/colors.nix;
 in
 {
-  _module.args.colorTheme = colorTheme;
+  _module.args = {
+    inherit colorTheme;
+  };
 
   imports = [
+    ./shellOptions.nix
+    ./packages.nix
+
     ./misc/mimetypes.nix
 
     ./programs/alacritty.nix
@@ -32,16 +37,16 @@ in
     ./services/stalonetray.nix
     ./services/sxhkd.nix
 
-    ./secret/ssh/hosts
+    ./secret
   ];
 
-  xsession = {
-    pointerCursor = {
-      package = pkgs.capitaine-cursors;
-      name = "capitaine-cursors";
-      size = 16;
-    };
+  home = {
+    stateVersion = "21.05";
+    username = "h7x4";
+    homeDirectory = "/home/h7x4";
   };
+
+  news.display = "silent";
 
   programs = {
     home-manager.enable = true;
@@ -84,118 +89,6 @@ in
     zoxide.enable = true;
   };
 
-  home = {
-    stateVersion = "21.05";
-    username = "h7x4";
-    homeDirectory = "/home/h7x4";
-    packages = with pkgs; [
-      ahoviewer
-      anki
-      asciidoctor
-      audacity
-      beets
-      biber
-      calibre
-      castnow
-      citra
-      cool-retro-term
-      copyq
-      czkawka
-      darktable
-      desmume
-      discord
-      diskonaut
-      diskus
-      docker
-      du-dust
-      fcitx
-      fd
-      ffmpeg
-      geogebra
-      gnome.gnome-font-viewer
-      google-chrome
-      # gpgtui
-      graphviz
-      # hck
-      hexyl
-      imagemagick
-      inkscape
-      insomnia
-      jq
-      kepubify
-      kid3
-      koreader
-      krita
-      ktouch
-      lastpass-cli
-      lazydocker
-      libreoffice-fresh
-      light
-      lolcat
-      maim
-      mdcat
-      mdp
-      mediainfo
-      megacmd
-      megasync
-      micro
-      minecraft
-      mkvtoolnix
-      mmv
-      mopidy
-      mopidy-mpd
-      mopidy-soundcloud
-      mopidy-spotify
-      mopidy-youtube
-      mpc_cli
-      mps-youtube
-      neofetch
-      nmap
-      nyxt
-      osu-lazer
-      pandoc
-      pulseaudio
-      pulsemixer
-      python3
-      ripgrep
-      rsync
-      sc-im
-      scrcpy
-      slack
-      slack-term
-      # steam-tui
-      sxiv
-      tagainijisho
-      taisei
-      tealdeer
-      teams
-      # tenacity
-      # tv-renamer
-      toilet
-      tokei
-      touchegg
-      w3m
-      waifu2x-converter-cpp
-      wavemon
-      xcalib
-      xclip
-      xdotool
-      youtube-dl
-      # yuzu-mainline
-      zeal
-      zoom-us
-      zotero
-
-      # Needed for VSCode liveshare
-      desktop-file-utils
-      krb5
-      zlib
-      icu
-      openssl
-      xorg.xprop
-    ];
-  };
-
   services = {
     gnome-keyring.enable = true;
     dropbox.enable = true;
@@ -203,5 +96,41 @@ in
     # redshift.enable = true;
   };
 
-}
+  manual = {
+    html.enable = true;
+    manpages.enable = true;
+    json.enable = true;
+  };
 
+  gtk = {
+    enable = true;
+    font = {
+      name = "Droid Sans";
+    };
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus";
+    };
+    theme = {
+      package = pkgs.vimix-gtk-themes;
+      name = "VimixDark";
+    };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+    style = {
+      name = "adwaita-dark";
+      package = pkgs.adwaita-qt;
+    };
+  };
+
+  xsession = {
+    pointerCursor = {
+      package = pkgs.capitaine-cursors;
+      name = "capitaine-cursors";
+      size = 16;
+    };
+  };
+}

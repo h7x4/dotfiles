@@ -1,6 +1,6 @@
 { ... }:
 {
   imports = [
-    ./sources
+    ./sources.nix
   ];
 }
