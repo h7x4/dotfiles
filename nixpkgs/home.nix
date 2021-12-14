@@ -1,14 +1,17 @@
-{ pkgs ? import <nixpkgs> {}, lib ? pkgs.lib, ... } @ args:
-
+{ pkgs, lib, ... } @ args:
 let
   colorType = with lib.types; (attrsOf str);
-
   colorTheme = import ./common/colors.nix;
 in
 {
   _module.args = {
     inherit colorTheme;
   };
+
+  # FIXME: this isn't really working? see shellOptions
+  nixpkgs.overlays = [
+    (import ./overlays/lib)
+  ];
 
   imports = [
     ./shellOptions.nix

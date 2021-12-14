@@ -1,5 +1,11 @@
-{ pkgs ? import <nixos> {}, lib ? pkgs.lib, config ? pkgs.config, ... }:
+{ config, ... }:
 let
+  # TODO: These should really be inputs in the main function, and the
+  #       overlaying should be happening in home.nix. I wasn't able to
+  #       make it work though.
+  pkgs = import <nixos> { overlays = [(import ./overlays/lib)]; };
+  lib = pkgs.lib;
+
   sedColor =
     color:
     inputPattern:
@@ -10,13 +16,10 @@ let
 
   colorSlashes = colorRed "/" {middle = "/";};
 
-  red = s: "[31m${s}[m";
-  green = s: "[32m${s}[m";
-  blue = s: "[34m${s}[m";
-
   # Context Functors
   functors = let
     inherit (lib.strings) concatStringsSep;
+    inherit (lib.termColors.front) blue;
   in {
     shellPipe = {
       wrap = s: {
@@ -32,15 +35,12 @@ let
         value = s;
       };
       apply = f: concatStringsSep " " f.value;
-      stringify = f: concatStringsSep (" \\\n    " f.value;
+      stringify = f: concatStringsSep " \\\n    " f.value;
     };
   };
 
   # AttrSet -> Bool
   isFunctor = attrset: if !(attrset ? "type") then false else lib.lists.any (f: (f.wrap "").type == attrset.type) (lib.attrsets.attrValues functors);
-
-  repeatItem = n: item: map (lib.trivial.const item) (lib.lists.range 1 n);
-  repeatString = n: string: lib.strings.concatStrings (repeatItem n string);
 
 in rec {
   _module.args.shellOptions = {
@@ -141,7 +141,7 @@ in rec {
           "ls -l /proc/$(pidof dropbox)/fd"
           "egrep -v 'pipe:|socket:|/dev'"
           "grep \"${config.services.dropbox.path}/[^.]\""
-      ];
+        ];
 
         subdirs-to-cbz = join [
           "for dir in \"./*\"; do"
@@ -240,24 +240,44 @@ in rec {
 
       "Generated" = {
         "cds" = let
-          inherit (lib.strings) concatStrings concatStringsSep;
-          inherit (lib.lists) range flatten;
-          inherit (lib.attrsets) nameValuePair;
+          inherit (lib.strings) concatStringsSep repeatString;
+          inherit (lib.lists) range flatten repeat;
+          inherit (lib.attrsets) nameValuePair listToAttrs;
 
           nthCds = n: [
-            ("cd" + (repeatString (n + 1) "."))
+            ("cd" + (repeatString "." (n + 1)))
             ("cd." + toString n)
-            (repeatString (n + 1) ".")
+            (repeatString "." (n + 1))
             ("." + toString n)
             (".." + toString n)
           ];
-          realCommand = n: "cd " + (concatStringsSep "/" (repeatItem n ".."));
+          realCommand = n: "cd " + (concatStringsSep "/" (repeat ".." n));
 
           nthCdsAsNameValuePairs = n: map (cmd: nameValuePair cmd (realCommand n)) (nthCds n);
-          allCdNameValuePairs = (flatten (map nthCdsAsNameValuePairs (range 1 9)));
+          allCdNameValuePairs = flatten (map nthCdsAsNameValuePairs (range 1 9));
         in
-          lib.attrsets.listToAttrs allCdNameValuePairs;
+          listToAttrs allCdNameValuePairs;
       };
+      "Package Managers" = let
+        inherit (lib.attrsets) nameValuePair listToAttrs;
+
+        packageManagers = [
+          "apt"
+          "dpkg"
+          "flatpak"
+          "pacman"
+          "pamac"
+          "paru"
+          "rpm"
+          "snap"
+          "xbps"
+          "yay"
+          "yum"
+        ];
+
+        command = "${coreutils}/bin/cat $HOME/${config.home.file.packageManagerLecture.target}";
+        nameValuePairs = map (pm: nameValuePair pm command) packageManagers;
+      in listToAttrs nameValuePairs;
     };
 
     # TODO: flatten functions
@@ -282,8 +302,7 @@ in rec {
     };
 
     flattened.aliases = let
-      inherit (lib.attrsets) mapAttrs attrValues filterAttrs isAttrs;
-      inherit (lib.lists) foldr partition;
+      inherit (lib.attrsets) mapAttrs attrValues filterAttrs isAttrs concatAttrs;
       inherit (lib.strings) isString concatStringsSep;
 
       applyFunctor = attrset: functors.${attrset.type}.apply attrset;
@@ -307,53 +326,61 @@ in rec {
         recursedAliasSets = filteredAliases
                           ++ (remainingFunctors)
                           ++ (map allAttrValuesAreStrings remainingAliasSets);
-      in foldr (a: b: a // b) {} recursedAliasSets;
+      in concatAttrs recursedAliasSets;
 
     in
       allAttrValuesAreStrings _module.args.shellOptions.aliases;
   };
 
-  home.file.aliases = {
-    text = let
-      inherit (lib.strings) concatStringsSep replaceStrings substring stringLength;
-      inherit (lib.attrsets) attrValues mapAttrs isAttrs;
-      inherit (lib.lists) remove length range tail;
-      inherit (lib.trivial) const;
+  home.file = {
+    aliases = {
+      target = ".local/share/aliases";
+      text = let
+        inherit (lib.strings) unlines wrap' replaceStrings' stringLength repeatString;
+        inherit (lib.attrsets) attrValues mapAttrs isAttrs;
+        inherit (lib.lists) remove;
+        inherit (lib.trivial) mapNullable;
+        inherit (lib.termColors.front) red green blue;
 
-      # int -> String -> AttrSet -> String
-      stringifyCategory = level: name: category:
-      concatStringsSep "\n"
-        (["${repeatString level "  "}[${green name}]"] ++
-        (attrValues (mapAttrs (n: v: let
-          # String
-          indent = repeatString level "  ";
+        # int -> String -> AttrSet -> String
+        stringifyCategory = level: name: category:
+        unlines
+          (["${repeatString "  " level}[${green name}]"] ++
+          (attrValues (mapAttrs (n: v: let
+            # String
+            indent = repeatString "  " level;
 
-          # String -> String -> String
-          wrap' = w: s: w + s + w;
+            # String -> String
+            removeNixLinks = text: let
+              maybeMatches = builtins.match "(|.*[^)])(/nix/store/.*/bin/).*" text;
+              matches = mapNullable (remove "") maybeMatches;
+            in if (maybeMatches == null)
+               then text
+               else replaceStrings' matches "" text;
 
-          # String -> String
-          removeNixLinks = text: let
-            maybeMatches = (builtins.match "(|.*[^)])(/nix/store/.*/bin/).*" text);
-            matches = if (maybeMatches == null) then null else remove "" maybeMatches;
-            listOfEmptyStrings = map (const "") (range 1 (length matches));
+            applyFunctor = attrset: let
+              applied = functors.${attrset.type}.stringify attrset;
+              indent' = "${indent}       ${repeatString " " (stringLength n)}";
+            in replaceStrings' ["\n"] ("\n" + indent') applied;
+
+            recurse = stringifyCategory (level + 1) n v;
           in
-            if (maybeMatches == null)
-              then text
-              else replaceStrings matches listOfEmptyStrings text;
-
-          applyFunctor = attrset: let
-            applied = functors.${attrset.type}.stringify attrset;
-            indent' = indent + "       " + (repeatString (stringLength n) " ");
-            indented = replaceStrings ["\n"] [("\n" + indent')] applied;
-          in indented;
-
-          recurse = stringifyCategory (level + 1) n v;
-        in
-        if !(isAttrs v) then "${indent}  ${red n} -> ${wrap' (blue "\"") (removeNixLinks v)}" else
-        if isFunctor v  then "${indent}  ${red n} -> ${wrap' (blue "\"") (removeNixLinks (applyFunctor v))}" else
-        recurse) category)));
-    in
-      (stringifyCategory 0 "Aliases" _module.args.shellOptions.aliases) + "\n";
-    target = ".local/share/aliases";
+          if !(isAttrs v) then "${indent}  ${red n} -> ${wrap' (blue "\"") (removeNixLinks v)}" else
+          if isFunctor v  then "${indent}  ${red n} -> ${wrap' (blue "\"") (removeNixLinks (applyFunctor v))}" else
+          recurse) category)));
+      in
+        (stringifyCategory 0 "Aliases" _module.args.shellOptions.aliases) + "\n";
+     };
+     packageManagerLecture = {
+      target = ".local/share/package-manager.lecture";
+      text = let
+        inherit (lib.strings) unlines;
+        inherit (lib.termColors.front) red blue;
+      in unlines [
+        ((red "This package manager is not installed on ") + (blue "NixOS") + (red "."))
+        ((red "Either use ") + ("\"nix-env -i\"") + (red "or install it through a configuration file."))
+        ""
+      ];
+    };
   };
 }
