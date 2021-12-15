@@ -45,6 +45,7 @@
     light
     lolcat
     maim
+    manix
     mdcat
     mdp
     mediainfo
@@ -72,6 +73,7 @@
     python3
     ripgrep
     rsync
+    rust-motd
     sc-im
     scrcpy
     slack
