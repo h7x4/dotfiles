@@ -21,21 +21,29 @@ let
     inherit (lib.strings) concatStringsSep;
     inherit (lib.termColors.front) blue;
     genWrapper = type: value: { inherit type; inherit value; };
-  in {
-    shellPipe = {
-      wrap = genWrapper "shellPipe";
-      apply = f: concatStringsSep " | " f.value;
-      stringify = f: concatStringsSep (blue "\n| ") f.value;
+  in
+    {
+      shellPipe = {
+        wrap = genWrapper "shellPipe";
+        apply = f: concatStringsSep " | " f.value;
+        stringify = f: concatStringsSep (blue "\n| ") f.value;
+      };
+      join = {
+        wrap = genWrapper "join";
+        apply = f: concatStringsSep " " f.value;
+        stringify = f: concatStringsSep " \\\n   " f.value;
+      };
     };
-    join = {
-      wrap = genWrapper "join";
-      apply = f: concatStringsSep " " f.value;
-      stringify = f: concatStringsSep " \\\n      " f.value;
-    };
-  };
 
   # AttrSet -> Bool
-  isFunctor = attrset: if !(attrset ? "type") then false else lib.lists.any (f: (f.wrap "").type == attrset.type) (lib.attrsets.attrValues functors);
+  isFunctor = let
+    inherit (lib.lists) any;
+    inherit (lib.attrsets) attrValues;
+  in
+    attrset:
+      if !(attrset ? "type")
+      then false
+      else any (f: (f.wrap "").type == attrset.type) (attrValues functors);
 
 in rec {
   _module.args.shellOptions = {
@@ -349,14 +357,16 @@ in rec {
             removeNixLinks = text: let
               maybeMatches = builtins.match "(|.*[^)])(/nix/store/.*/bin/).*" text;
               matches = mapNullable (remove "") maybeMatches;
-            in if (maybeMatches == null)
-               then text
-               else replaceStrings' matches "" text;
+            in
+              if (maybeMatches == null)
+              then text
+              else replaceStrings' matches "" text;
 
             applyFunctor = attrset: let
               applied = functors.${attrset.type}.stringify attrset;
-              indent' = indent + (repeatString " " ((stringLength " ->") + (stringLength n)));
-            in replaceStrings' ["\n"] ("\n" + indent') applied;
+              indent' = indent + (repeatString " " ((stringLength " -> \"") + (stringLength n))) + " ";
+            in
+              replaceStrings' ["\n"] ("\n" + indent') applied;
 
             recurse = stringifyCategory (level + 1) n v;
           in
