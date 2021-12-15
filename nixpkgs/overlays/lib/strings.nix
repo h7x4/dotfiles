@@ -11,7 +11,7 @@ in super.lib.strings // rec {
     concatStringsSep splitter (map f (splitString splitter string));
 
   # (String -> String) -> String -> String
-  mapLines = splitMap "\n"
+  mapLines = splitMap "\n";
 
   # String -> Int -> String
   repeatString = string: times: concatStringsSep "" (repeat string times);

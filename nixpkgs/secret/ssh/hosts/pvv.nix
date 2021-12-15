@@ -1,5 +1,10 @@
-{ lib, ... }:
+{ ... }:
 let
+
+  # TODO: Fix overlay in home.nix
+  pkgs = import <nixos> { overlays = [(import ../../../overlays/lib)]; };
+  lib = pkgs.lib;
+
   users = import ./users.nix;
   inherit (users.pvv) normalUser adminUser;
 
@@ -33,68 +38,60 @@ let
     [ "innovation" "pvv-minecraft" ]
   ];
 
+  # Either( String [String] AttrSet{String} ) -> AttrSet{String}
   normalizeValueType = let
-    inherit (lib.strings) isString concatStringsSep;
+    inherit (lib.strings) isString;
     inherit (lib.lists) isList;
     inherit (lib.attrsets) filterAttrs;
   in
     machine:
-    if (isString machine) then (normalizeValueType [machine])
-    else if (isList machine) then (normalizeValueType { names = machine; })
-    else ({ name = concatStringsSep " " machine.names; } // (removeAttrs machine ["names"]));
+    if (isString machine) then { names = [machine]; }
+    else if (isList machine) then { names = machine; }
+    else machine;
 
-  # TODO: Merge the following two functions. They have too much code in common.
-  convertNormalMachines = let
-    inherit (lib.trivial) pipe;
-    inherit (lib.attrsets) listToAttrs;
+  # [String] -> AttrSet
+  machineWithNames = let
     inherit (lib.lists) head;
     inherit (lib.strings) split;
+  in
+    names: { hostname = "${head names}.pvv.org"; };
 
-    convertNormalMachine = normalizedMachine:
-      rec {
-        inherit (normalizedMachine) name;
-        value = ({
-          hostname = "${head (split " " name)}.pvv.org";
-          user = normalUser;
-        } // removeAttrs normalizedMachine ["name"]);
-      };
+  # AttrSet -> AttrSet -> AttrSet
+  convertMachineWithDefaults = defaults: normalizedMachine: let
+    inherit (lib.attrsets) nameValuePair;
+    inherit (lib.strings) concatStringsSep;
+    inherit (normalizedMachine) names;
 
-    pipeline = [
-      (ms: map normalizeValueType ms)
-      (ms: map convertNormalMachine ms)
-      listToAttrs
-    ];
-  in machines: pipe machines pipeline;
+    name = concatStringsSep " " names;
+    value =
+      (machineWithNames names)
+      // defaults
+      // removeAttrs normalizedMachine ["names"];
+  in
+    nameValuePair name value;
 
-  convertAdminMachines = let
-    inherit (lib.trivial) pipe;
+  # AttrSet -> AttrSet
+  convertNormalMachine = convertMachineWithDefaults { user = normalUser; };
+  # AttrSet -> AttrSet
+  convertAdminMachine =
+    convertMachineWithDefaults { user = adminUser; proxyJump = "hildring"; };
+
+  # [ Either(String [String] AttrSet{String}) ] -> (AttrSet -> AttrSet) -> AttrSet
+  convertMachinesWith = convertMachineFunction: let
     inherit (lib.attrsets) listToAttrs;
-    inherit (lib.lists) head;
-    inherit (lib.strings) split;
-
-    convertAdminMachine = normalizedMachine:
-      rec {
-        inherit (normalizedMachine) name;
-        value = ({
-          hostname = "${head (split " " name)}.pvv.org";
-          user = adminUser;
-          proxyJump = "hildring";
-        } // removeAttrs normalizedMachine ["name"]);
-      };
-
+    inherit (lib.trivial) pipe;
     pipeline = [
-      (ms: map normalizeValueType ms)
-      (ms: map convertAdminMachine ms)
+      (map normalizeValueType)
+      (map convertMachineFunction)
       listToAttrs
     ];
-  in machines: pipe machines pipeline;
+  in
+    machines: pipe machines pipeline;
 
 in
   {
-    programs.ssh.matchBlocks = let
-      concatSets = lib.lists.foldl (s1: s2: s1 // s2) {};
-    in concatSets [
-      (convertNormalMachines normalMachines)
-      (convertAdminMachines rootMachines)
+    programs.ssh.matchBlocks = lib.attrsets.concatAttrs [
+      (convertMachinesWith convertNormalMachine normalMachines)
+      (convertMachinesWith convertAdminMachine rootMachines)
     ];
   }

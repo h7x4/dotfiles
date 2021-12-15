@@ -47,9 +47,12 @@ in
     stateVersion = "21.05";
     username = "h7x4";
     homeDirectory = "/home/h7x4";
+    # enableNixpkgsReleaseCheck = true;
   };
 
   news.display = "silent";
+
+  fonts.fontconfig.enable = true;
 
   programs = {
     home-manager.enable = true;
@@ -58,37 +61,30 @@ in
     bottom.enable = true;
     exa.enable = true;
     feh.enable = true;
-
     fzf = {
       enable = true;
       defaultCommand = "fd --type f";
     };
-
     gpg.enable = true;
     irssi.enable = true;
+    kakoune.enable = true;
     lazygit.enable = true;
-    mpv.enable = true;
-    ssh.enable = true;
-
     man = {
       enable = true;
       generateCaches = true;
     };
-
+    mpv.enable = true;
     obs-studio.enable = true;
-
+    ssh.enable = true;
     skim = {
       enable = true;
       defaultCommand ="fd --type f";
     };
-
     texlive = {
       enable = true;
       # packageSet = pkgs.texlive.combined.scheme-medium;
     };
-
     # xmobar.enable = true;
-
     zoxide.enable = true;
   };
 
@@ -128,6 +124,8 @@ in
       package = pkgs.adwaita-qt;
     };
   };
+
+  xdg.enable = true;
 
   xsession = {
     pointerCursor = {

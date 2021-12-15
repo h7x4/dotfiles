@@ -20,22 +20,17 @@ let
   functors = let
     inherit (lib.strings) concatStringsSep;
     inherit (lib.termColors.front) blue;
+    genWrapper = type: value: { inherit type; inherit value; };
   in {
     shellPipe = {
-      wrap = s: {
-        type = "shellPipe";
-        value = s;
-      };
+      wrap = genWrapper "shellPipe";
       apply = f: concatStringsSep " | " f.value;
       stringify = f: concatStringsSep (blue "\n| ") f.value;
     };
     join = {
-      wrap = s: {
-        type = "join";
-        value = s;
-      };
+      wrap = genWrapper "join";
       apply = f: concatStringsSep " " f.value;
-      stringify = f: concatStringsSep " \\\n    " f.value;
+      stringify = f: concatStringsSep " \\\n      " f.value;
     };
   };
 
@@ -104,7 +99,7 @@ in rec {
 
       "Reminders" = {
         regex-escapechars = "echo \"[\\^$.|?*+()\"";
-        aliases = "${coreutils}/bin/cat $HOME/${home.file.aliases.target}";
+        aliases = "${coreutils}/bin/cat $HOME/${config.xdg.dataFile.aliases.target}";
       };
 
       # ░█▀█░▀█▀░█░█
@@ -257,27 +252,28 @@ in rec {
           allCdNameValuePairs = flatten (map nthCdsAsNameValuePairs (range 1 9));
         in
           listToAttrs allCdNameValuePairs;
+
+        "Package Managers" = let
+          inherit (lib.attrsets) nameValuePair listToAttrs;
+
+          packageManagers = [
+            "apt"
+            "dpkg"
+            "flatpak"
+            "pacman"
+            "pamac"
+            "paru"
+            "rpm"
+            "snap"
+            "xbps"
+            "yay"
+            "yum"
+          ];
+
+          command = "${coreutils}/bin/cat $HOME/${config.xdg.dataFile.packageManagerLecture.target}";
+          nameValuePairs = map (pm: nameValuePair pm command) packageManagers;
+        in listToAttrs nameValuePairs;
       };
-      "Package Managers" = let
-        inherit (lib.attrsets) nameValuePair listToAttrs;
-
-        packageManagers = [
-          "apt"
-          "dpkg"
-          "flatpak"
-          "pacman"
-          "pamac"
-          "paru"
-          "rpm"
-          "snap"
-          "xbps"
-          "yay"
-          "yum"
-        ];
-
-        command = "${coreutils}/bin/cat $HOME/${config.home.file.packageManagerLecture.target}";
-        nameValuePairs = map (pm: nameValuePair pm command) packageManagers;
-      in listToAttrs nameValuePairs;
     };
 
     # TODO: flatten functions
@@ -332,9 +328,8 @@ in rec {
       allAttrValuesAreStrings _module.args.shellOptions.aliases;
   };
 
-  home.file = {
+  xdg.dataFile = {
     aliases = {
-      target = ".local/share/aliases";
       text = let
         inherit (lib.strings) unlines wrap' replaceStrings' stringLength repeatString;
         inherit (lib.attrsets) attrValues mapAttrs isAttrs;
@@ -360,7 +355,7 @@ in rec {
 
             applyFunctor = attrset: let
               applied = functors.${attrset.type}.stringify attrset;
-              indent' = "${indent}       ${repeatString " " (stringLength n)}";
+              indent' = indent + (repeatString " " ((stringLength " ->") + (stringLength n)));
             in replaceStrings' ["\n"] ("\n" + indent') applied;
 
             recurse = stringifyCategory (level + 1) n v;
@@ -370,15 +365,15 @@ in rec {
           recurse) category)));
       in
         (stringifyCategory 0 "Aliases" _module.args.shellOptions.aliases) + "\n";
-     };
-     packageManagerLecture = {
-      target = ".local/share/package-manager.lecture";
+      };
+      packageManagerLecture = {
+      target = "package-manager.lecture";
       text = let
         inherit (lib.strings) unlines;
         inherit (lib.termColors.front) red blue;
       in unlines [
         ((red "This package manager is not installed on ") + (blue "NixOS") + (red "."))
-        ((red "Either use ") + ("\"nix-env -i\"") + (red "or install it through a configuration file."))
+        ((red "Either use ") + ("\"nix-env -i\"") + (red " or install it through a configuration file."))
         ""
       ];
     };
