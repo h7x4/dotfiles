@@ -32,7 +32,7 @@ in
     ./programs/tmux.nix
     ./programs/vscode.nix
     ./programs/zathura.nix
-    ./programs/zsh.nix
+    ./programs/zsh
 
     ./services/dunst.nix
     ./services/mpd.nix

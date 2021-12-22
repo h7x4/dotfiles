@@ -32,11 +32,6 @@
         src = pkgs.zsh-powerlevel10k;
         file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       }
-      # {
-      #   name = "powerlevel10k-config";
-      #   src = lib.cleanSource ./p10k-config;
-      #   file = "p10k.zsh";
-      # }
     ];
 
     localVariables = shellOptions.variables;
@@ -59,7 +54,7 @@
     #   };
     # in ''
     initExtra = ''
-      source ${config.home.homeDirectory}/${dotDir}/p10k.zsh
+      source ${./p10k.zsh}
     '';
   };
 }
