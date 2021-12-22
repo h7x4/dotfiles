@@ -59,6 +59,12 @@ in rec {
       # Replacing all of coreutils with rust, lol
 
       "System Tool Replacements" = {
+
+        # Convention: if replaced tool is useful in some situations, let it be available
+        #             as its own command with its first character doubled.
+        #
+        #             Example:   cp -> ccp
+
         cd = "z";
 
         ccp = "${coreutils}/bin/cp";
@@ -69,6 +75,7 @@ in rec {
         cat  = "${bat}/bin/bat";
 
         htop = "${bottom}/bin/btm";
+        hhtop = "${htop}/bin/htop";
 
         # This is potentially dangerous, as procs flags are totally different
         ps = "${procs}/bin/procs";
