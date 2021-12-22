@@ -28,8 +28,18 @@ let
         apply = f: concatStringsSep " | " f.value;
         stringify = f: concatStringsSep (blue "\n| ") f.value;
       };
-      join = {
-        wrap = genWrapper "join";
+      shellAnd = {
+        wrap = genWrapper "shellAnd";
+        apply = f: concatStringsSep " && " f.value;
+        stringify = f: concatStringsSep (blue "\n&& ") f.value;
+      };
+      shellThen = {
+        wrap = genWrapper "shellThen";
+        apply = f: concatStringsSep "; " f.value;
+        stringify = f: concatStringsSep (blue ";\n  ") f.value;
+      };
+      shellJoin = {
+        wrap = genWrapper "shellJoin";
         apply = f: concatStringsSep " " f.value;
         stringify = f: concatStringsSep " \\\n   " f.value;
       };
@@ -49,7 +59,9 @@ in rec {
   _module.args.shellOptions = {
     aliases = let
       shellPipe = functors.shellPipe.wrap;
-      join = functors.join.wrap;
+      shellJoin = functors.shellJoin.wrap;
+      shellAnd = functors.shellAnd.wrap;
+      shellThen = functors.shellThen.wrap;
     in with pkgs; {
 
       # ░█▀▄░█▀▀░█▀█░█░░░█▀█░█▀▀░█▀▀░█▄█░█▀▀░█▀█░▀█▀░█▀▀
@@ -153,8 +165,8 @@ in rec {
           "grep \"${config.services.dropbox.path}/[^.]\""
         ];
 
-        subdirs-to-cbz = join [
-          "for dir in \"./*\"; do"
+        subdirs-to-cbz = shellJoin [
+          "for dir in \"./*\";"
           "  ${zip}/bin/zip -r \"$dir.cbz\" \"$d\";"
           "done"
         ];
@@ -212,6 +224,11 @@ in rec {
         # Having 'watch' with a space after as an alias, enables it to expand other aliases
         watch = "${procps}/bin/watch ";
 
+        concatPdfs = shellThen [
+          "echo \"${lib.termColors.front.red "Concatenating all pdfs in current directory to 'out.pdf'"}\""
+          "${poppler_utils}/bin/pdfunite *.pdf out.pdf"
+        ];
+
         m = "${ncmpcpp}/bin/ncmpcpp";
         p = "${python39Packages.ipython}/bin/ipython";
       };
@@ -223,14 +240,14 @@ in rec {
       # I didn't know where else to put these ¯\_(ツ)_/¯
 
       "Misc" = {
-        youtube-dl-list = join [
+        youtube-dl-list = shellJoin [
           "${youtube-dl}/bin/youtube-dl"
           "-f \"bestvideo[ext=mp4]+bestaudio[e=m4a]/bestvideo+bestaudio\""
           "-o \"%(playlist_index)s-%(title)s.%(ext)s\""
         ];
 
         music-dl = "${youtube-dl}/bin/youtube-dl --extract-audio -f \"bestaudio[ext=m4a]/best\"";
-        music-dl-list = join [
+        music-dl-list = shellJoin [
           "${youtube-dl}/bin/youtube-dl"
           "--extract-audio"
           "-f \"bestaudio[ext=m4a]/best\""
@@ -294,7 +311,7 @@ in rec {
     # TODO: flatten functions
     functions = {
       all = {
-        md-to-pdf = functors.join.wrap [
+        md-to-pdf = functors.shellJoin.wrap [
           "pandoc \"$1\""
           "-f gfm"
           "-V linkcolor:blue"
