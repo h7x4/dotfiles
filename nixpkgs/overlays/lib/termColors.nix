@@ -1,7 +1,8 @@
-self: super:
+final: prev:
 let
-  inherit (self.lib.strings) wrap;
-  inherit (super.lib.attrsets) mapAttrs' nameValuePair;
+  inherit (final.lib.strings) wrap;
+  inherit (prev.lib.attrsets) mapAttrs' nameValuePair;
+  # inherit (final.lib.myStuff.termColors) escapeCharacter escapeColor resetCharacter wrapWithColor' colorMappings;
 in rec {
   # String
   escapeCharacter = "";

@@ -1,9 +1,10 @@
-self: super: 
+final: prev: 
 {
-  lib = super.lib // {
-    attrsets = import ./attrsets.nix self super;
-    lists = import ./lists.nix self super;
-    strings = import ./strings.nix self super;
-    termColors = import ./termColors.nix self super;
+  lib = prev.lib // {
+    attrsets =   (import ./attrsets.nix) final prev;
+    lists =      (import ./lists.nix) final prev;
+    strings =    (import ./strings.nix) final prev;
+    termColors = (import ./termColors.nix) final prev;
+    trivial =    (import ./trivial.nix) final prev;
   };
 }

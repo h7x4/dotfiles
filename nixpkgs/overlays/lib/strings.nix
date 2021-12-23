@@ -1,8 +1,9 @@
-self: super:
+final: prev:
 let
-  inherit (self.lib.lists) repeat length;
-  inherit (super.lib.strings) concatStringsSep replaceStrings splitString;
-in super.lib.strings // rec {
+  inherit (final.lib.lists) repeat length;
+  inherit (prev.lib.strings) concatStringsSep replaceStrings splitString;
+  # inherit (final.lib.strings) wrap;
+in prev.lib.strings // rec {
   # String -> [String]
   lines = splitString "\n";
 
