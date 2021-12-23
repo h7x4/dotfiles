@@ -8,7 +8,9 @@ let
   }) {};
 in
 {
-  home.packages = with pkgs; [
-    comma
-  ];
+  # FIXME: this projects default.nix imports <nixpkgs>, which makes it very much not kosher
+
+  # home.packages = with pkgs; [
+  #   comma
+  # ];
 }

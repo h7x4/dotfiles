@@ -1,23 +1,11 @@
-{ pkgs, lib, ... } @ args:
-let
-  colorType = with lib.types; (attrsOf str);
-  colorTheme = import ./common/colors.nix;
-in
+{ pkgs, ... } @ args:
 {
-  _module.args = {
-    inherit colorTheme;
-  };
-
-  # FIXME: this isn't really working? see shellOptions
-  nixpkgs.overlays = [
-    (import ./overlays/lib)
-  ];
-
   imports = [
     ./shellOptions.nix
     ./packages.nix
 
     ./misc/mimetypes.nix
+    ./misc/ssh/hosts/pvv.nix
 
     ./programs/alacritty.nix
     ./programs/comma.nix
@@ -39,15 +27,12 @@ in
     ./services/picom.nix
     ./services/stalonetray.nix
     ./services/sxhkd.nix
-
-    ./secret
   ];
 
   home = {
-    stateVersion = "21.05";
+    stateVersion = "21.11";
     username = "h7x4";
     homeDirectory = "/home/h7x4";
-    # enableNixpkgsReleaseCheck = true;
   };
 
   news.display = "silent";

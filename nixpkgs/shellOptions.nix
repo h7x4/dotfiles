@@ -1,10 +1,7 @@
-{ config, ... }:
-let
-  # TODO: These should really be inputs in the main function, and the
-  #       overlaying should be happening in home.nix. I wasn't able to
-  #       make it work though.
-  pkgs = import <nixos> { overlays = [(import ./overlays/lib)]; };
-  lib = pkgs.lib;
+{ pkgs, config, ... }: let
+
+  # FIXME: lib should be imported directly as a module argument.
+  inherit (pkgs) lib;
 
   sedColor =
     color:

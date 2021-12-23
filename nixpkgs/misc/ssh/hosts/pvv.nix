@@ -1,12 +1,7 @@
-{ ... }:
+{ pkgs, secrets, ... }:
 let
-
-  # TODO: Fix overlay in home.nix
-  pkgs = import <nixos> { overlays = [(import ../../../overlays/lib)]; };
-  lib = pkgs.lib;
-
-  users = import ./users.nix;
-  inherit (users.pvv) normalUser adminUser;
+  inherit (pkgs) lib;
+  inherit (secrets.ssh.users.pvv) normalUser adminUser;
 
   # http://www.pvv.ntnu.no/pvv/Maskiner
   normalMachines = [
