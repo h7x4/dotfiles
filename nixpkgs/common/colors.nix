@@ -1,7 +1,7 @@
 rec {
-  monokai = rec {
-    foreground = white;
-    background = black;
+  monokai = {
+    foreground = monokai.white;
+    background = monokai.black;
     black   = "#272822";
     red     = "#f92672";
     green   = "#a6e22e";
