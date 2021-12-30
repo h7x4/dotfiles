@@ -1,6 +1,8 @@
 { pkgs, config, ... }: let
   # FIXME: lib should be imported directly as a module argument.
   inherit (pkgs) lib;
+
+# TODO: Split this file
 in {
   imports = [
     ./hardware-configuration.nix

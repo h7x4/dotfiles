@@ -133,10 +133,14 @@ in rec {
       # Nix related aliases
 
       "Nix Stuff" = {
-        # This for some reason uses an outdated version of hm
+
+        # FIXME: This for some reason uses an outdated version of home-manager and nixos-rebuild
         # hs = "${pkgs.home-manager}/bin/home-manager switch";
+        # nxr = "sudo ${nixos-rebuild}/bin/nixos-rebuild switch";
+
         hms = "home-manager switch";
-        nxr = "sudo ${nixos-rebuild}/bin/nixos-rebuild switch";
+        nxr = "sudo nixos-rebuild switch";
+
         nxc = "sudoedit /etc/nixos/configuration.nix";
         nxh = "vim ~/.config/nixpkgs/home.nix";
         ns = "nix-shell";

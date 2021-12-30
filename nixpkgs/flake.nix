@@ -75,12 +75,12 @@
           inherit specialArgs;
 
           modules = [
-            ./hosts/${name}
+            ./hosts/${name}/configuration.nix
           ];
         } // extraOpts;
 
     in {
-      # Tsuki = nixSys "tsuki" {};
+      Tsuki = nixSys "tsuki" {};
       Eisei = nixSys "eisei" {};
     };
 
