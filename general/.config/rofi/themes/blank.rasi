@@ -7,7 +7,7 @@
 	background-selected: #F2F2F245;
 	background-active: #F2F2F230;
 	background-white: #F2F2F211;
-	background-black: #000000C0;
+	background-black: #00000066;
 	urgent: #E91E6366;
 	urgent-selected: #E91E6377;
 }
@@ -31,7 +31,7 @@ prompt {
 button {
 	action: "ok";
 	str: " ";
-	font: "FantasqueSansMono Nerd Font 11";
+	font: "Droid Sans 12";
 	expand: false;
 	text-color: @foreground;
 	background-color: @transparent;
@@ -40,7 +40,7 @@ button {
 }
 
 entry {
-	font: "Droid Sans 11";
+	font: "Droid Sans 12";
 	background-color: @transparent;
 	text-color: @foreground;
 	expand: true;
@@ -102,11 +102,14 @@ element {
 }
 
 element-icon {
+	background-color: @transparent;
 	size: 46px;
 	border: 0;
 }
 
 element-text {
+	background-color: @transparent;
+	text-color: @foreground;
 	expand: true;
 	horizontal-align: 0;
 	vertical-align: 0.5;
